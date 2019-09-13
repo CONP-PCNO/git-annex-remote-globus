@@ -1,0 +1,104 @@
+Metadata-Version: 2.1
+Name: globus-sdk
+Version: 1.8.0
+Summary: Globus SDK for Python
+Home-page: https://github.com/globus/globus-sdk-python
+Author: Globus Team
+Author-email: support@globus.org
+License: UNKNOWN
+Keywords: globus,file transfer
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Topic :: Communications :: File Sharing
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Provides-Extra: jwt
+Provides-Extra: development
+Requires-Dist: requests (<3.0.0,>=2.9.2)
+Requires-Dist: six (<2.0.0,>=1.10.0)
+Requires-Dist: pyjwt[crypto] (<2.0.0,>=1.5.3)
+Provides-Extra: development
+Requires-Dist: tox (<4.0,>=3.5.3); extra == 'development'
+Requires-Dist: flake8 (<4.0,>=3.0); extra == 'development'
+Requires-Dist: isort (<5.0,>=4.3); extra == 'development'
+Requires-Dist: pytest (<4.0,>=3.7.4); extra == 'development'
+Requires-Dist: pytest-cov (<3.0,>=2.5.1); extra == 'development'
+Requires-Dist: pytest-xdist (<2.0,>=1.22.5); extra == 'development'
+Requires-Dist: httpretty (==0.9.5); extra == 'development'
+Requires-Dist: twine (==1.11.0); extra == 'development'
+Requires-Dist: wheel (==0.31.1); extra == 'development'
+Requires-Dist: sphinx (==1.4.1); extra == 'development'
+Requires-Dist: guzzle-sphinx-theme (==0.7.11); extra == 'development'
+Provides-Extra: development
+Requires-Dist: mock (==2.0.0); (python_version < "3.6") and extra == 'development'
+Provides-Extra: development
+Requires-Dist: flake8-bugbear (==18.8.0); (python_version >= "3.5") and extra == 'development'
+Provides-Extra: development
+Requires-Dist: black (==18.9b0); (python_version >= "3.6") and extra == 'development'
+Provides-Extra: jwt
+
+.. image:: https://travis-ci.org/globus/globus-sdk-python.svg?branch=master
+    :alt: build status
+    :target: https://travis-ci.org/globus/globus-sdk-python
+
+.. image:: https://img.shields.io/pypi/v/globus-sdk.svg
+    :alt: Latest Released Version
+    :target: https://pypi.org/project/globus-sdk/
+
+.. image:: https://img.shields.io/pypi/pyversions/globus-sdk.svg
+    :alt: Supported Python Versions
+    :target: https://pypi.org/project/globus-sdk/
+
+.. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
+    :alt: License
+    :target: https://opensource.org/licenses/Apache-2.0
+
+
+Globus SDK for Python
+=====================
+
+This SDK provides a convenient Pythonic interface to
+`Globus <https://www.globus.org>`_ APIs.
+
+Basic Usage
+-----------
+
+Install with ``pip install globus-sdk``
+
+You can then import Globus client classes and other helpers from
+``globus_sdk``. For example:
+
+.. code-block:: python
+
+    from globus_sdk import LocalGlobusConnectPersonal
+
+    # None if Globus Connect Personal is not installed
+    endpoint_id = LocalGlobusConnectPersonal().endpoint_id
+
+
+Testing, Development, and Contributing
+--------------------------------------
+
+Go to the
+`CONTRIBUTING <https://github.com/globus/globus-sdk-python/blob/master/CONTRIBUTING.adoc>`_
+guide for detail.
+
+Links
+-----
+| Full Documentation: http://globus-sdk-python.readthedocs.io/
+| Source Code: https://github.com/globus/globus-sdk-python
+| API Documentation: https://docs.globus.org/api/
+| Release History + Changelog: https://github.com/globus/globus-sdk-python/releases
+
+
