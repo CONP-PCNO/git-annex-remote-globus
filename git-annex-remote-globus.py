@@ -25,8 +25,9 @@ class GlobusRemote(ExportRemote):
         super(GlobusRemote, self).__init__(annex)
         client_id = '01589ab6-70d1-4e1c-b33d-14b6af4a16be'
         globus_client = GlobusClient(client_id)
-        self.auth_token, self.transfer_token = globus_client.get_transfer_tokens()
-        print(self.auth_token, self.transfer_token)
+        self.refresh_token, self.access_token, self.expire_at_s = globus_client.get_refresh_tokens()
+        # self.auth_token, self.transfer_token = globus_client.get_transfer_tokens()
+        print(self.refresh_token, self.access_token, self.expire_at_s)
 
     def initremote(self):
 
