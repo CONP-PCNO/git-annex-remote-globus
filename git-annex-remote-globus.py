@@ -10,11 +10,10 @@
 import sys, os, errno
 
 from shutil import copyfile
-
+import globus_sdk
+from globusclient import GlobusClient
 from annexremote import Master
 from annexremote import ExportRemote
-from annexremote import Protocol
-from annexremote import SpecialRemote
 from annexremote import RemoteError, ProtocolError
 
 
@@ -24,10 +23,17 @@ class GlobusRemote(ExportRemote):
 
     def __init__(self, annex):
         super(GlobusRemote, self).__init__(annex)
+        client_id = '01589ab6-70d1-4e1c-b33d-14b6af4a16be'
+        globus_client = GlobusClient(client_id)
+        self.auth_token, self.transfer_token = globus_client.get_transfer_tokens()
+        print(self.auth_token, self.transfer_token)
 
     def initremote(self):
 
         """Requests the remote to initialize itself. Idempotent call"""
+
+        # this should open a session with Globus. Tokens get generated and we make sure they do not expire until the
+        # session ends
 
         self.directory = self.annex.getconfig('directory')
         if not self.directory:
@@ -35,6 +41,9 @@ class GlobusRemote(ExportRemote):
         self._mkdir(self.directory)
                 
     def prepare(self):
+
+        # this should create the endpoint where data will be transferred by git annex"
+
         self.directory = self.annex.getconfig('directory')
         self.info = {'directory': self.directory}
         if not os.path.exists(self.directory):
@@ -56,38 +65,38 @@ class GlobusRemote(ExportRemote):
         location = self._calclocation(key)
         self._do_remove(key, location)
 
-    # ## Export methods
-    # def transferexport_store(self, key, local_file, remote_file):
-    #     location = '/'.join((self.directory, remote_file))
-    #     self._do_store(key, local_file, location)
-    #
-    # def transferexport_retrieve(self, key, local_file, remote_file):
-    #     location = '/'.join((self.directory, remote_file))
-    #     self._do_retrieve(key, location, local_file)
-    #
-    # def checkpresentexport(self, key, remote_file):
-    #     location = '/'.join((self.directory, remote_file))
-    #     return self._do_checkpresent(key, location)
-    #
-    # def removeexport(self, key, remote_file):
-    #     location = '/'.join((self.directory, remote_file))
-    #     self._do_remove(key, location)
-    #
-    # def removeexportdirectory(self, remote_directory):
-    #     location = '/'.join((self.directory, remote_directory))
-    #     try:
-    #         os.rmdir(location)
-    #     except OSError as e:
-    #         if e.errno != errno.ENOENT:
-    #             raise RemoteError(e)
-    #
-    # def renameexport(self, key, filename, new_filename):
-    #     oldlocation = '/'.join((self.directory, filename))
-    #     newlocation = '/'.join((self.directory, new_filename))
-    #     try:
-    #         os.rename(oldlocation, newlocation)
-    #     except OSError as e:
-    #         raise RemoteError(e)
+    ## Export methods
+    def transferexport_store(self, key, local_file, remote_file):
+        location = '/'.join((self.directory, remote_file))
+        self._do_store(key, local_file, location)
+
+    def transferexport_retrieve(self, key, local_file, remote_file):
+        location = '/'.join((self.directory, remote_file))
+        self._do_retrieve(key, location, local_file)
+
+    def checkpresentexport(self, key, remote_file):
+        location = '/'.join((self.directory, remote_file))
+        return self._do_checkpresent(key, location)
+
+    def removeexport(self, key, remote_file):
+        location = '/'.join((self.directory, remote_file))
+        self._do_remove(key, location)
+
+    def removeexportdirectory(self, remote_directory):
+        location = '/'.join((self.directory, remote_directory))
+        try:
+            os.rmdir(location)
+        except OSError as e:
+            if e.errno != errno.ENOENT:
+                raise RemoteError(e)
+
+    def renameexport(self, key, filename, new_filename):
+        oldlocation = '/'.join((self.directory, filename))
+        newlocation = '/'.join((self.directory, new_filename))
+        try:
+            os.rename(oldlocation, newlocation)
+        except OSError as e:
+            raise RemoteError(e)
 
     def _mkdir(self, directory):
         try:
@@ -141,21 +150,36 @@ class GlobusRemote(ExportRemote):
         try:
             os.remove(location)
         except OSError as e:
-	    # It's not a failure to remove a file that is not present.
+            # It's not a failure to remove a file that is not present.
             if e.errno != errno.ENOENT:
                 raise RemoteError(e)
 
 
+def get_versions():
+    # TODO: to be implemented
+    pass
+
+
 def main():
+    if len(sys.argv) > 1:
+        if sys.argv[1] == 'setup':
+            with open(os.devnull, 'w') as devnull:
+                master = Master(devnull)
+                remote = GlobusRemote(master)
+                remote.setup()
+            return
+        elif sys.argv[1] == 'version':
+            print(os.path.basename(__file__), get_versions()['this'])
+            print("Using AnnexRemote", get_versions()['annexremote'])
+            return
+    else:
+        output = sys.stdout
+        sys.stdout = sys.stderr
 
-    # Redirect output to stderr to avoid messing up the protocol
-    output = sys.stdout
-    sys.stdout = sys.stderr
-
-    master = Master(output)
-    remote = GlobusRemote(master)
-    master.LinkRemote(remote)
-    master.Listen()
+        master = Master(output)
+        remote = GlobusRemote(master)
+        #master.LinkRemote(remote)
+        #master.Listen()
 
 
 if __name__ == "__main__":

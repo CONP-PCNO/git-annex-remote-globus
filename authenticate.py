@@ -35,7 +35,7 @@ tc = globus_sdk.TransferClient(authorizer=authorizer)
 # create an endpoint:
 ep_data = {
     "DATA_TYPE": "endpoint",
-    "display_name": 'name',
+    "display_name": 'Multimodal data with wide-field GCaMP imaging and sub-cortical/cortical single unit recording',
     "DATA": [
         {
             "DATA_TYPE": "server",
