@@ -24,3 +24,16 @@ TRANSFER_TOKEN = globus_transfer_data['access_token']
 
 print(AUTH_TOKEN)
 print(TRANSFER_TOKEN)
+
+# a GlobusAuthorizer is an auxiliary object we use to wrap the token. In
+# more advanced scenarios, other types of GlobusAuthorizers give us
+# expressive power
+# An authorizer instance used for all calls to Globus Transfer
+authorizer = globus_sdk.AccessTokenAuthorizer(TRANSFER_TOKEN)
+tc = globus_sdk.TransferClient(authorizer=authorizer)
+
+# high level interface; provides iterators for list responses
+print("My Endpoints:")
+
+for ep in tc.endpoint_search(filter_scope="my-endpoints", num_results=None):
+    print('{0} has ID {1}'.format(ep['display_name'], ep['id']))
