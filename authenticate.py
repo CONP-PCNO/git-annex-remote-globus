@@ -32,8 +32,23 @@ print(TRANSFER_TOKEN)
 authorizer = globus_sdk.AccessTokenAuthorizer(TRANSFER_TOKEN)
 tc = globus_sdk.TransferClient(authorizer=authorizer)
 
+# create an endpoint:
+ep_data = {
+    "DATA_TYPE": "endpoint",
+    "display_name": 'name',
+    "DATA": [
+        {
+            "DATA_TYPE": "server",
+            "hostname": "gridftp.globusid.org",
+        },
+    ],
+}
+create_result = tc.create_endpoint(ep_data)
+endpoint_id = create_result["id"]
+
+
 # high level interface; provides iterators for list responses
 print("My Endpoints:")
-
+print(endpoint_id)
 for ep in tc.endpoint_search(filter_scope="my-endpoints", num_results=None):
     print('{0} has ID {1}'.format(ep['display_name'], ep['id']))
