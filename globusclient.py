@@ -3,6 +3,8 @@ import globus_sdk
 
 class GlobusClient:
 
+    authorizer = None
+
     def __init__(self, client_id):
         self.client_id = client_id
         self.client = globus_sdk.NativeAppAuthClient(self.client_id)
@@ -51,3 +53,11 @@ class GlobusClient:
         transfer_at = globus_transfer_data['access_token']
         expires_at_s = globus_transfer_data['expires_at_seconds']
         return transfer_rt, transfer_at, expires_at_s
+
+    def get_authorizer(self, *params, refresh=None):
+        if refresh:
+            return globus_sdk.RefreshTokenAuthorizer(
+                params[0], self.client, access_token=params[1], expires_at=params[2])
+        else:
+            return globus_sdk.AccessTokenAuthorizer(params[1])
+
