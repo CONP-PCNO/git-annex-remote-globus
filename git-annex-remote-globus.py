@@ -33,14 +33,16 @@ class GlobusRemote(SpecialRemote):
         self.auth_token = None
         self.transfer_token = None
         self.globus_client = GlobusClient(self.client_id)
-        self.initremote()
-        self.prepare()
+        self._setup()
 
     def _setup(self):
-        # self.refresh_token, self.access_token, self.expire_at_s = self.globus_client.get_refresh_tokens()
-        self.auth_token, self.transfer_token = self.globus_client.get_transfer_tokens()
+        self.refresh_token, self.access_token, self.expire_at_s = self.globus_client.get_refresh_tokens()
+        # self.auth_token, self.transfer_token = self.globus_client.get_transfer_tokens()
 
     def initremote(self):
+
+        # TODO need to think on how to make this call relevant and indempotent to users.
+        #  Think of scenarios of many users and many sessions. Do they need different tokens?
 
         """Requests the remote to initialize itself. Idempotent call"""
 
@@ -50,12 +52,12 @@ class GlobusRemote(SpecialRemote):
 
     def prepare(self):
         # self.auth_token, self.transfer_token = globus_client.get_transfer_tokens()
-        print(self.auth_token, self.transfer_token)
+        # print(self.auth_token, self.transfer_token)
+        print(self.refresh_token, self.access_token, self.expire_at_s)
         # this should open a session with Globus. Tokens get generated and we make sure they do not expire until the
         # session ends
-        # authorizer = self.globus_client.get_authorizer(self.refresh_token, self.access_token, self.expire_at_s,
-        # refresh=True)
-        authorizer = globus_sdk.AccessTokenAuthorizer(self.transfer_token)
+        authorizer = self.globus_client.get_authorizer(self.refresh_token, self.access_token, self.expire_at_s, refresh=True)
+        # authorizer = globus_sdk.AccessTokenAuthorizer(str(self.transfer_token))
 
         tc = globus_sdk.TransferClient(authorizer)
 
@@ -200,8 +202,8 @@ def main():
 
         master = Master(output)
         remote = GlobusRemote(master)
-        # master.LinkRemote(remote)
-        # master.Listen()
+        master.LinkRemote(remote)
+        master.Listen()
 
 
 if __name__ == "__main__":
