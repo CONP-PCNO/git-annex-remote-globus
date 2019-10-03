@@ -1,4 +1,18 @@
 import globus_sdk
+import json
+
+
+def get_endpoint_id():
+    for ep in tc.endpoint_search(filter_fulltext='FRDR-Prod-2', num_results=None):
+        print('{0} has ID {1}'.format(ep['display_name'], ep['id']))
+        return ep['id']
+
+
+def get_path_content(ep_id):
+    print("In get path content - ls")
+    for en in tc.operation_ls(ep_id, path="/~/5/published/publication_170/submitted_data/"):
+        print(en)
+
 
 CLIENT_ID = '01589ab6-70d1-4e1c-b33d-14b6af4a16be'
 
@@ -32,23 +46,53 @@ print(TRANSFER_TOKEN)
 authorizer = globus_sdk.AccessTokenAuthorizer(TRANSFER_TOKEN)
 tc = globus_sdk.TransferClient(authorizer=authorizer)
 
-# create an endpoint:
+# CREATE AN ENDPOINT
 ep_data = {
     "DATA_TYPE": "endpoint",
-    "display_name": 'Multimodal data with wide-field GCaMP imaging and sub-cortical/cortical single unit recording',
+    "display_name": 'test',
     "DATA": [
         {
             "DATA_TYPE": "server",
-            "hostname": "gridftp.globusid.org",
+            "hostname": "gridftp.globus.org",
         },
     ],
 }
 create_result = tc.create_endpoint(ep_data)
-endpoint_id = create_result["id"]
+
+# GET THE FRDR-Prod-2 ID (This is what we need)
+
+frdr_id = get_endpoint_id()
+get_path_content(frdr_id)
 
 
-# high level interface; provides iterators for list responses
-print("My Endpoints:")
-print(endpoint_id)
-for ep in tc.endpoint_search(filter_scope="my-endpoints", num_results=None):
-    print('{0} has ID {1}'.format(ep['display_name'], ep['id']))
+# IMPORTANT PAGES: https://docs.globus.org/globus-connect-server-installation-guide/
+# https://docs.globus.org/globus-connect-server-v5-installation-guide/#_creating_a_storage_gateway_using_the_posix_storage_connector
+#
+# # high level interface; provides iterators for list responses
+# reqs = tc.endpoint_get_activation_requirements(endpoint_id)
+# print(reqs['activated'])
+# print(reqs)
+# file = open('tmp.json', 'r')
+#
+# reqs = json.load(file)
+# print(type(reqs))
+
+# ACTIVATION (pause for now)
+# To active an endpoint, clients should get the activation requirements for the endpoint (either explicitly or from
+# the autoactivate result), pick an activation method, and fill in values for the chosen activation method.
+# The requirements for the other methods not being used must be removed before submitting the request.
+# https://docs.globus.org/api/transfer/endpoint_activation/
+# r = tc.endpoint_autoactivate(endpoint_id, if_expires_in=3600)
+#
+# if r["code"] == "AutoActivationFailed":
+#     print("Endpoint requires manual activation, please open "
+#           "the following URL in a browser to activate the "
+#           "endpoint:")
+#     print("https://app.globus.org/file-manager?origin_id=%s"
+#           % endpoint_id)
+    # For python 2.X, use raw_input() instead
+    # input("Press ENTER after activating the endpoint:")
+    # r = tc.endpoint_autoactivate(endpoint_id, if_expires_in=3600)
+
+
+# TRY AND NAVIGATE IN THE ENDPOINT PATH AND RETRIVE DATA
