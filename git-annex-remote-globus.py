@@ -8,6 +8,7 @@
 # TODO: Add Copyright
 
 import sys, os, errno
+import wget
 
 from shutil import copyfile
 import globus_sdk
@@ -33,14 +34,33 @@ class GlobusRemote(SpecialRemote):
         self.auth_token = None
         self.transfer_token = None
         self.globus_client = GlobusClient(self.client_id)
+        # for now we can call it from here, we can make a separate command call if required, to complete the setup
         self._setup()
 
     def _setup(self):
-        self.refresh_token, self.access_token, self.expire_at_s = self.globus_client.get_refresh_tokens()
+        print("Im in setup")
+        # set up to be completed, may be useful to store tokens in a token.json file. After this, initremote starts
+        # this is about authorization and having all credentials in place to use the special remote
+        self.auth_token, self.transfer_token = self.globus_client.get_transfer_tokens()
         # self.auth_token, self.transfer_token = self.globus_client.get_transfer_tokens()
 
-    def initremote(self):
+        # POTENTIAL PROCESS TO CHECK FOR CREDENTIALS AND AUTH
+        # self.auth.LoadCredentialsFile('token.json')
+        #
+        # if self.auth.credentials is None:
+        #     self.auth.CommandLineAuth()
+        # elif self.auth.access_token_expired:
+        #     self.auth.Refresh()
+        # else:
+        #     self.auth.Authorize()
+        #
+        # self.auth.SaveCredentialsFile('token.json')
+        # print(
+        #     "Setup complete. An auth token was stored in token.json. Now run 'git annex initremote' with your
+        #     desired parameters. If you don't run it from the same folder, specify via token=path/to/token.json")
 
+    def initremote(self):
+        print("I am in initremote")
         # TODO need to think on how to make this call relevant and indempotent to users.
         #  Think of scenarios of many users and many sessions. Do they need different tokens?
 
@@ -49,21 +69,22 @@ class GlobusRemote(SpecialRemote):
         # for now we assume to work with refresh tokens, so when instantiated they should last
         if not self.auth_token and not self.transfer_token:
             self._setup()
+        print(self.auth_token, self.transfer_token)
 
     def prepare(self):
-        # self.auth_token, self.transfer_token = globus_client.get_transfer_tokens()
-        # print(self.auth_token, self.transfer_token)
-        print(self.refresh_token, self.access_token, self.expire_at_s)
-        # this should open a session with Globus. Tokens get generated and we make sure they do not expire until the
-        # session ends
-        authorizer = self.globus_client.get_authorizer(self.refresh_token, self.access_token, self.expire_at_s, refresh=True)
-        # authorizer = globus_sdk.AccessTokenAuthorizer(str(self.transfer_token))
-
+        print("I am in prepare")
+        authorizer = self.globus_client.get_authorizer(self.auth_token, self.transfer_token)
         tc = globus_sdk.TransferClient(authorizer)
+        frdr_endpoint = tc.endpoint_search(filter_fulltext='FRDR-Prod-2', num_results=None)
+        print(frdr_endpoint)
+        dataset_https_server = 'https://2a9f4.8443.dn.glob.us'
+        path = os.path.join(str(dataset_https_server),
+                            '/5/published/publication_170/submitted_data/2015_11_18_cortex/')
 
-        for ep in tc.endpoint_search(filter_scope="my-endpoints", num_results=None):
-            print('{0} has ID {1}'.format(ep['display_name'], ep['id']))
-
+        print(path)
+        # print(url)
+        # wget.download(url=url)
+        # print('SUCCESS ?')
         # self.directory = self.annex.getconfig('directory')
         # if not self.directory:
         #     # we may assume it is your current directory
