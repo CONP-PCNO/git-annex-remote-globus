@@ -17,9 +17,10 @@ def get_endpoint_id():
 
 def get_path_content(ep_id, path):
     for en in tc.operation_ls(ep_id, path=path, num_results=None):
+        last = path
         new_path = op.join(path, en['name'])
         if en['type'] == 'file':
-            print(new_path)
+            print('"{0}": "{1}"'.format(en['name'], last.split('~')[1]))
         else:
             get_path_content(ep_id, new_path)
 
