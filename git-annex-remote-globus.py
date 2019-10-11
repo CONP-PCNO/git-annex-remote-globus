@@ -27,7 +27,7 @@ class GlobusRemote(SpecialRemote):
 
     def __init__(self, annex):
         super(GlobusRemote, self).__init__(annex)
-        self.directory = ''
+        self.directory = None
         self.refresh_token = None
         self.access_token = None
         self.expire_at_s = None
@@ -72,43 +72,60 @@ class GlobusRemote(SpecialRemote):
         print(self.auth_token, self.transfer_token)
 
     def prepare(self):
+        # ask git - annex for its configuration
+        self.directory = self.annex.getconfig('directory')
         print("I am in prepare")
         authorizer = self.globus_client.get_authorizer(self.auth_token, self.transfer_token)
         tc = globus_sdk.TransferClient(authorizer)
         frdr_endpoint = tc.endpoint_search(filter_fulltext='FRDR-Prod-2', num_results=None)
-        print(frdr_endpoint)
-        dataset_https_server = 'https://2a9f4.8443.dn.glob.us'
-        path = os.path.join(str(dataset_https_server),
-                            '/5/published/publication_170/submitted_data/2015_11_18_cortex/')
-
-        print(path)
-        # print(url)
-        # wget.download(url=url)
-        # print('SUCCESS ?')
+        path = 'https://2a9f4.8443.dn.glob.us/5/published/publication_170/submitted_data/2015_11_18_cortex/2015_11_18_cortex.json'
+        print(self.directory)
         # self.directory = self.annex.getconfig('directory')
         # if not self.directory:
         #     # we may assume it is your current directory
         #     print("j")
         
     def transfer_store(self, key, filename):
-        # location = self._calclocation(key)
+        # TODO: decide what to do with this
+        print("File cannot be stored in dataset")
+        location = self._calclocation(key)
         # self._do_store(key, filename, location)
         pass
 
     def transfer_retrieve(self, key, filename):
-        # location = self._calclocation(key)
-        # self._do_retrieve(key, location, filename)
-        pass
+        location = self._calclocation(key)
+        return self._do_retrieve(location, filename)
 
     def checkpresent(self, key):
-        # location = self._calclocation(key)
-        # return self._do_checkpresent(key, location)PREPARE
-        pass
+        location = self._calclocation(key)
+        return self._do_checkpresent(key, location)
 
     def remove(self, key):
         # location = self._calclocation(key)
         # self._do_remove(key, location)
         pass
+
+    def _calclocation(self, key):
+        # return '/'.join((self.directory, filename=hashkey))
+        # which is the same as:
+        return "{dir}/{hash}{key}".format(
+            dir=self.directory,
+            hash=self.annex.dirhash(key),
+            key=key)
+
+    # TODO: decorate it to return multiple files in multiple locations
+    def _do_retrieve(self, location, filename):
+        # build path with file to be retrieved
+        path = '/'.join((location, filename))
+        try:
+            wget.download(url=path)
+        except OSError as e:
+            raise RemoteError(e)
+
+    def _do_checkpresent(self, key, location):
+        if not os.path.exists(self.directory):
+            raise RemoteError("this remote is not currently available")
+        return os.path.isfile(location)
 
     ## Export methods
     # def transferexport_store(self, key, local_file, remote_file):
