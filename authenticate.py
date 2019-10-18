@@ -3,6 +3,7 @@ import os.path as op
 import hashlib
 import wget
 import os
+import subprocess
 import globus_sdk.base as base
 import json
 from globus_sdk import LocalGlobusConnectPersonal
@@ -18,6 +19,7 @@ def get_endpoint_id():
 
 
 server = 'https://2a9f4.8443.dn.glob.us'
+lookup_url = {}
 
 
 def get_path_content(ep_id, path):
@@ -28,21 +30,35 @@ def get_path_content(ep_id, path):
         if en['type'] == 'file':
             # get full url where to download the file
             url = server + str(new_path.split('~')[1])
-            # save filename as download operation may alter it
-            filename = url.split('/')[-1]
-            # download file in given directory
-            wget.download(url=url, out=folder)
-            # get file local path
-            local_path = op.join(folder, filename)
+            result = subprocess.Popen(['curl', '-s', url], stdout=subprocess.PIPE)
+            out, _ = result.communicate()
+            hash_content = hashlib.sha256(out).hexdigest()
+            print(hash_content, new_path)
 
-            # generate hash to content
-            with open(local_path, 'rb') as content:
-                content_bytes = content.read()
-                content_hash = hashlib.sha256(content_bytes).hexdigest()
-                print('"{0}": "{1}"'.format(content_hash, new_path.split('~')[1]))
+
+            #result=subprocess.check_call("chmod u+rx hash.sh; ./hash.sh '%s'" % url, shell=True, stdout=subprocess.PIPE)
+            # get_hash256sum(url)
+            # save filename as download operation may alter it
+            # filename = url.split('/')[-1]
+            # download file in given directory
+            # wget.download(url=url, out=folder)
+            # # get file local path
+            # local_path = op.join(folder, filename)
+            #
+            # # generate hash to content
+            # with open(local_path, 'rb') as content:
+            #     content_bytes = content.read()
+            #     content_hash = str(hashlib.sha256(content_bytes).hexdigest())
+            #     lookup_url[content_hash] = str(new_path.split('~')[1])
 
         else:
             get_path_content(ep_id, new_path)
+    # write dict on file
+    # print(lookup_url)
+
+
+def get_hash256sum(url):
+    subprocess.run(['bash', 'hash.sh', url], shell=True)
 
 
 CLIENT_ID = '01589ab6-70d1-4e1c-b33d-14b6af4a16be'
