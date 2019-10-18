@@ -1,6 +1,8 @@
 import globus_sdk
 import os.path as op
+import hashlib
 import wget
+import os
 import globus_sdk.base as base
 import json
 from globus_sdk import LocalGlobusConnectPersonal
@@ -15,12 +17,30 @@ def get_endpoint_id():
         return ep['id']
 
 
+server = 'https://2a9f4.8443.dn.glob.us'
+
+
 def get_path_content(ep_id, path):
     for en in tc.operation_ls(ep_id, path=path, num_results=None):
-        last = path
+        # update last path
         new_path = op.join(path, en['name'])
+        # if your last join is a file
         if en['type'] == 'file':
-            print('"{0}": "{1}"'.format(en['name'], last.split('~')[1]))
+            # get full url where to download the file
+            url = server + str(new_path.split('~')[1])
+            # save filename as download operation may alter it
+            filename = url.split('/')[-1]
+            # download file in given directory
+            wget.download(url=url, out=folder)
+            # get file local path
+            local_path = op.join(folder, filename)
+
+            # generate hash to content
+            with open(local_path, 'rb') as content:
+                content_bytes = content.read()
+                content_hash = hashlib.sha256(content_bytes).hexdigest()
+                print('"{0}": "{1}"'.format(content_hash, new_path.split('~')[1]))
+
         else:
             get_path_content(ep_id, new_path)
 
@@ -61,8 +81,21 @@ tc = globus_sdk.TransferClient(authorizer=authorizer)
 
 frdr_id = get_endpoint_id()
 
-url1 = 'https://2a9f4.8443.dn.glob.us/5/published/publication_170/submitted_data/'
+url1 = 'https://2a9f4.8443.dn.glob.us/5/published/publication_170/submitted_data/2015_12_11_cortex/2015_12_11_cortex.json'
 base_path = '/~/5/published/publication_170/submitted_data/'
+
+folder = 'output'
+if os.path.isdir(folder):
+    for file in os.listdir(folder):
+        file_path = op.join(folder, file)
+        try:
+            # assume there will be only files
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+        except Exception as e:
+            print(e)
+else:
+    os.makedirs(folder)
 
 get_path_content(frdr_id, base_path)
 
@@ -90,9 +123,7 @@ get_path_content(frdr_id, base_path)
 
 # source_path = "/5/published/publication_170/submitted_data/2015_11_18_cortex/2015_11_18_cortex.json"
 
-
-
-# wget.download(url=url)
+# wget.download(url=url1)
 # label = "My json transfer"
 #
 # # TransferData() automatically gets a submission_id for once-and-only-once submission
