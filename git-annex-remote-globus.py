@@ -10,7 +10,7 @@
 import sys, os, errno
 import wget
 
-from shutil import copyfile
+from lookup_url import lookup_url as urls
 import globus_sdk
 from globusclient import GlobusClient
 from annexremote import Master
@@ -27,7 +27,7 @@ class GlobusRemote(SpecialRemote):
 
     def __init__(self, annex):
         super(GlobusRemote, self).__init__(annex)
-        self.directory = None
+        self.server = None
         self.refresh_token = None
         self.access_token = None
         self.expire_at_s = None
@@ -73,13 +73,12 @@ class GlobusRemote(SpecialRemote):
 
     def prepare(self):
         # ask git - annex for its configuration
-        self.directory = self.annex.getconfig('directory')
+        # self.directory = self.annex.getconfig('directory')
         print("I am in prepare")
         authorizer = self.globus_client.get_authorizer(self.auth_token, self.transfer_token)
         tc = globus_sdk.TransferClient(authorizer)
         frdr_endpoint = tc.endpoint_search(filter_fulltext='FRDR-Prod-2', num_results=None)
-        path = 'https://2a9f4.8443.dn.glob.us/5/published/publication_170/submitted_data/2015_11_18_cortex/2015_11_18_cortex.json'
-        print(self.directory)
+        self.server = 'https://2a9f4.8443.dn.glob.us'
         # self.directory = self.annex.getconfig('directory')
         # if not self.directory:
         #     # we may assume it is your current directory
@@ -93,6 +92,8 @@ class GlobusRemote(SpecialRemote):
         pass
 
     def transfer_retrieve(self, key, filename):
+        print("I AM IN TRANSFER RETRIEVE")
+        # look up key in lookup url to get the location
         location = self._calclocation(key)
         return self._do_retrieve(location, filename)
 
@@ -106,19 +107,20 @@ class GlobusRemote(SpecialRemote):
         pass
 
     def _calclocation(self, key):
+        print("CALC LOC")
         # return '/'.join((self.directory, filename=hashkey))
         # which is the same as:
-        return "{dir}/{hash}{key}".format(
-            dir=self.directory,
-            hash=self.annex.dirhash(key),
-            key=key)
+        return self.server + urls.get(key).split('~')[1]
 
     # TODO: decorate it to return multiple files in multiple locations
     def _do_retrieve(self, location, filename):
+        print("I AM IN RETRIEVE")
         # build path with file to be retrieved
-        path = '/'.join((location, filename))
+        # ADD: check that the key and file are correct
+        path = os.path.join(location, filename)
         try:
-            wget.download(url=path)
+            print('Trying download..')
+            wget.download(url=location)
         except OSError as e:
             raise RemoteError(e)
 
