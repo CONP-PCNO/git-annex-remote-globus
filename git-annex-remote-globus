@@ -12,18 +12,43 @@ import wget
 
 from lookup_url import lookup_url as urls
 import globus_sdk
+import json
 from globusclient import GlobusClient
 from annexremote import Master
 from annexremote import ExportRemote
 from annexremote import SpecialRemote
 from annexremote import RemoteError, ProtocolError
 
+import json
+import time
+import sys
+import webbrowser
+
+from utils import enable_requests_logging, is_remote_session
+
+from globus_sdk import (NativeAppAuthClient, TransferClient,
+                        RefreshTokenAuthorizer)
+from globus_sdk.exc import GlobusAPIError
+
+versions = None
+
 
 class GlobusRemote(SpecialRemote):
 
     """This is the class of Globus remotes."""
 
-    client_id = '01589ab6-70d1-4e1c-b33d-14b6af4a16be'
+    CLIENT_ID = '01589ab6-70d1-4e1c-b33d-14b6af4a16be'
+
+    TOKEN_FILE = 'refresh-tokens.json'
+
+    REDIRECT_URI = 'https://auth.globus.org/v2/web/auth-code'
+
+    SCOPES = ('openid email profile '
+              'urn:globus:auth:scope:transfer.api.globus.org:all')
+
+    TUTORIAL_ENDPOINT_ID = 'ddb59aef-6d04-11e5-ba46-22000b92c6ec'
+
+    get_input = getattr(__builtins__, 'raw_input', input)
 
     def __init__(self, annex):
         super(GlobusRemote, self).__init__(annex)
@@ -35,50 +60,147 @@ class GlobusRemote(SpecialRemote):
         self.transfer_token = None
         self.globus_client = GlobusClient(self.client_id)
         # for now we can call it from here, we can make a separate command call if required, to complete the setup
-        self._setup()
+        # self._setup()
 
-    def _setup(self):
+    @staticmethod
+    def load_tokens_from_file(filepath):
+        """Load a set of saved tokens."""
+        with open(filepath, 'r') as f:
+            tokens = json.load(f)
+
+        return tokens
+
+    @staticmethod
+    def save_tokens_to_file(filepath, tokens):
+        """Save a set of tokens for later use."""
+        with open(filepath, 'w') as f:
+            json.dump(tokens, f)
+
+    def update_tokens_file_on_refresh(self, token_response):
+        """
+        Callback function passed into the RefreshTokenAuthorizer.
+        Will be invoked any time a new access token is fetched.
+        """
+        self.save_tokens_to_file(self.TOKEN_FILE, token_response.by_resource_server)
+
+    def do_native_app_authentication(self, client_id, redirect_uri,
+                                     requested_scopes=None):
+        """
+        Does a Native App authentication flow and returns a
+        dict of tokens keyed by service name.
+        """
+        client = self.NativeAppAuthClient(client_id=client_id)
+        # pass refresh_tokens=True to request refresh tokens
+        client.oauth2_start_flow(requested_scopes=requested_scopes,
+                                 redirect_uri=redirect_uri,
+                                 refresh_tokens=True)
+
+        url = client.oauth2_get_authorize_url()
+
+        print('Native App Authorization URL: \n{}'.format(url))
+
+        if not is_remote_session():
+            webbrowser.open(url, new=1)
+
+        auth_code = self.get_input('Enter the auth code: ').strip()
+
+        token_response = client.oauth2_exchange_code_for_tokens(auth_code)
+
+        # return a set of tokens, organized by resource server name
+        return token_response.by_resource_server
+
+    def setup(self):
+
         print("Im in setup")
-        # set up to be completed, may be useful to store tokens in a token.json file. After this, initremote starts
-        # this is about authorization and having all credentials in place to use the special remote
-        self.auth_token, self.transfer_token = self.globus_client.get_transfer_tokens()
-        # self.auth_token, self.transfer_token = self.globus_client.get_transfer_tokens()
 
-        # POTENTIAL PROCESS TO CHECK FOR CREDENTIALS AND AUTH
-        # self.auth.LoadCredentialsFile('token.json')
-        #
-        # if self.auth.credentials is None:
-        #     self.auth.CommandLineAuth()
-        # elif self.auth.access_token_expired:
-        #     self.auth.Refresh()
-        # else:
-        #     self.auth.Authorize()
-        #
-        # self.auth.SaveCredentialsFile('token.json')
-        # print(
-        #     "Setup complete. An auth token was stored in token.json. Now run 'git annex initremote' with your
-        #     desired parameters. If you don't run it from the same folder, specify via token=path/to/token.json")
+        # Load credentials, obtain or refresh tokens if they are not in token files, maybe authorize ?
+
+        tokens = None
+        try:
+            # if we already have tokens, load and use them
+            tokens = self.load_tokens_from_file(self.TOKEN_FILE)
+        except Exception as e:
+            print(e)
+
+        if not tokens:
+            # if we need to get tokens, start the Native App authentication process
+            tokens = self.do_native_app_authentication(self.CLIENT_ID, self.REDIRECT_URI, self.SCOPES)
+
+            try:
+                self.save_tokens_to_file(self.TOKEN_FILE, tokens)
+            except Exception as e:
+                print('SAVE TOKENS IN FILE EXCEPTION: ', e)
+
+    def authenticate(self):
+        frdr_endpoint = None
+        # get tokens from tokens files
+        tokens = self.load_tokens_from_file(self.TOKEN_FILE)
+        transfer_tokens = tokens['transfer.api.globus.org']
+
+        auth_client = NativeAppAuthClient(client_id=self.CLIENT_ID)
+
+        authorizer = RefreshTokenAuthorizer(
+            transfer_tokens['refresh_token'],
+            auth_client,
+            access_token=transfer_tokens['access_token'],
+            expires_at=transfer_tokens['expires_at_seconds'],
+            on_refresh=self.update_tokens_file_on_refresh)
+
+        transfer = TransferClient(authorizer=authorizer)
+
+        # print out endpoint details
+        try:
+            frdr_endpoint = transfer.endpoint_search(filter_fulltext='FRDR-Prod-2', num_results=None)
+        except GlobusAPIError as ex:
+            print(ex)
+            if ex.http_status == 401:
+                sys.exit('Refresh token has expired. '
+                         'Please delete refresh-tokens.json and try again.')
+            else:
+                raise ex
+
+        if frdr_endpoint:
+            self.server = frdr_endpoint['server']
+
+
+
+        # TODO: trigger for debugging
+        # revoke the access token that was just used to make requests against
+        # the Transfer API to demonstrate that the RefreshTokenAuthorizer will
+        # automatically get a new one
+
+        # auth_client.oauth2_revoke_token(authorizer.access_token)
+        # # Allow a little bit of time for the token revocation to settle
+        # time.sleep(1)
+        # # Verify that the access token is no longer valid
+        # token_status = auth_client.oauth2_validate_token(
+        #     transfer_tokens['access_token'])
+        # assert token_status['active'] is False, 'Token was expected to be invalid.'
+        # frdr_endpoint = None
+        # print('\nDoing a second operations with a new access token:')
+        # frdr_endpoint = transfer.endpoint_search(filter_fulltext='FRDR-Prod-2', num_results=None)
+        # assert frdr_endpoint is None
 
     def initremote(self):
-        print("I am in initremote")
+        print("I am in initremote - here initialization takes place")
         # TODO need to think on how to make this call relevant and indempotent to users.
         #  Think of scenarios of many users and many sessions. Do they need different tokens?
 
         """Requests the remote to initialize itself. Idempotent call"""
-
+        self._send_version()
         # for now we assume to work with refresh tokens, so when instantiated they should last
         if not self.auth_token and not self.transfer_token:
-            self._setup()
+            self.auth_token = 'Ag4E8xNG2b60v80l6y1KMyqJOXYNO8KoWa14kwxDe718B31Egps7CaOVDqDP85Eaba19rzv4Jbv00ysjXWYx6s8Kx8UbgYEhNYmK'
+            self.transfer_token = 'AgJBGpXnnwqzGGBvDVeB01QW16mW5jYNY35MXav2kGB1da0VzDF0Cv0JjnjgOoMk6xGQ7w9NwJXkkas3z59NJCwV8G'
+            # self._setup()
         print(self.auth_token, self.transfer_token)
 
     def prepare(self):
+        self._send_version()
+        self.authenticate()  # may not need the rest
         # ask git - annex for its configuration
         # self.directory = self.annex.getconfig('directory')
-        print("I am in prepare")
-        authorizer = self.globus_client.get_authorizer(self.auth_token, self.transfer_token)
-        tc = globus_sdk.TransferClient(authorizer)
-        frdr_endpoint = tc.endpoint_search(filter_fulltext='FRDR-Prod-2', num_results=None)
-        self.server = 'https://2a9f4.8443.dn.glob.us'
+        print("I am in prepare - here the connection takes place")
         # self.directory = self.annex.getconfig('directory')
         # if not self.directory:
         #     # we may assume it is your current directory
@@ -87,7 +209,7 @@ class GlobusRemote(SpecialRemote):
     def transfer_store(self, key, filename):
         # TODO: decide what to do with this
         print("File cannot be stored in dataset")
-        location = self._calclocation(key)
+        # location = self._calclocation(key)
         # self._do_store(key, filename, location)
         pass
 
@@ -102,6 +224,7 @@ class GlobusRemote(SpecialRemote):
         return self._do_checkpresent(key, location)
 
     def remove(self, key):
+        print("File cannot be removed in dataset")
         # location = self._calclocation(key)
         # self._do_remove(key, location)
         pass
@@ -116,7 +239,7 @@ class GlobusRemote(SpecialRemote):
     def _do_retrieve(self, location, filename):
         print("I AM IN RETRIEVE")
         # build path with file to be retrieved
-        # ADD: check that the key and file are correct
+        # ADD: check that the key and file are correct,  can use REGEX as the filename may be a path/filename
         path = os.path.join(location, filename)
         try:
             print('Trying download..')
@@ -129,6 +252,8 @@ class GlobusRemote(SpecialRemote):
             raise RemoteError("this remote is not currently available")
         return os.path.isfile(location)
 
+    def _send_version(self):
+        print('VERSION 1')
     ## Export methods
     # def transferexport_store(self, key, local_file, remote_file):
     #     location = '/'.join((self.directory, remote_file))
@@ -219,11 +344,6 @@ class GlobusRemote(SpecialRemote):
     #             raise RemoteError(e)
 
 
-def get_versions():
-    # TODO: to be implemented
-    pass
-
-
 def main():
     if len(sys.argv) > 1:
         if sys.argv[1] == 'setup':
@@ -231,11 +351,7 @@ def main():
                 master = Master(devnull)
                 remote = GlobusRemote(master)
                 remote.setup()
-            return
-        elif sys.argv[1] == 'version':
-            print(os.path.basename(__file__), get_versions()['this'])
-            print("Using AnnexRemote", get_versions()['annexremote'])
-            return
+            return 0
     else:
         output = sys.stdout
         sys.stdout = sys.stderr

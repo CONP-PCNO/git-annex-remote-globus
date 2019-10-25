@@ -21,6 +21,7 @@ class GlobusClient:
         # this is to work on Python2 and Python3 -- you can just use raw_input() or
         # input() for your specific version
         get_input = getattr(__builtins__, 'raw_input', input)
+
         auth_code = get_input(
             'Please enter the code you get after login here: ').strip()
         token_response = self.client.oauth2_exchange_code_for_tokens(auth_code)
