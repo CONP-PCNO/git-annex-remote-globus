@@ -151,7 +151,10 @@ class GlobusRemote(SpecialRemote):
 
         # print out endpoint details
         try:
-            frdr_endpoint = transfer.endpoint_search(filter_fulltext='FRDR-Prod-2', num_results=None)
+            # break PaginatedResponse object by applying a for loop
+            for obj in transfer.endpoint_search(filter_fulltext='FRDR-Prod-2', num_results=1):
+                print(obj['https_server'])
+                self.server = obj['https_server']
         except GlobusAPIError as ex:
             print(ex)
             if ex.http_status == 401:
@@ -159,10 +162,6 @@ class GlobusRemote(SpecialRemote):
                          'Please delete refresh-tokens.json and try again.')
             else:
                 raise ex
-
-        if frdr_endpoint:
-            self.server = 'https://2a9f4.8443.dn.glob.us'  # frdr_endpoint['https_server']
-
 
 
         # TODO: trigger for debugging
