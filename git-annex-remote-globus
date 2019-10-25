@@ -10,7 +10,7 @@
 import sys, os, errno
 import wget
 
-from lookup_url import lookup_url as urls
+from lookup_url import lookup_url
 import globus_sdk
 import json
 from globusclient import GlobusClient
@@ -23,6 +23,7 @@ import json
 import time
 import sys
 import webbrowser
+import logging
 
 from utils import enable_requests_logging, is_remote_session
 
@@ -58,7 +59,6 @@ class GlobusRemote(SpecialRemote):
         self.expire_at_s = None
         self.auth_token = None
         self.transfer_token = None
-        self.globus_client = GlobusClient(self.client_id)
         # for now we can call it from here, we can make a separate command call if required, to complete the setup
         # self._setup()
 
@@ -78,7 +78,7 @@ class GlobusRemote(SpecialRemote):
 
     def update_tokens_file_on_refresh(self, token_response):
         """
-        Callback function passed into the RefreshTokenAuthorizer.
+        Callback function passed into the RefreshTokenAuthorizer
         Will be invoked any time a new access token is fetched.
         """
         self.save_tokens_to_file(self.TOKEN_FILE, token_response.by_resource_server)
@@ -89,7 +89,7 @@ class GlobusRemote(SpecialRemote):
         Does a Native App authentication flow and returns a
         dict of tokens keyed by service name.
         """
-        client = self.NativeAppAuthClient(client_id=client_id)
+        client = globus_sdk.NativeAppAuthClient(client_id=client_id)
         # pass refresh_tokens=True to request refresh tokens
         client.oauth2_start_flow(requested_scopes=requested_scopes,
                                  redirect_uri=redirect_uri,
@@ -129,13 +129,14 @@ class GlobusRemote(SpecialRemote):
             try:
                 self.save_tokens_to_file(self.TOKEN_FILE, tokens)
             except Exception as e:
-                print('SAVE TOKENS IN FILE EXCEPTION: ', e)
+                print('save tokens to file exception: ', e)
 
     def authenticate(self):
-        frdr_endpoint = None
         # get tokens from tokens files
         tokens = self.load_tokens_from_file(self.TOKEN_FILE)
         transfer_tokens = tokens['transfer.api.globus.org']
+
+        print('TRANSFER TOKEN: ', transfer_tokens)
 
         auth_client = NativeAppAuthClient(client_id=self.CLIENT_ID)
 
@@ -160,7 +161,7 @@ class GlobusRemote(SpecialRemote):
                 raise ex
 
         if frdr_endpoint:
-            self.server = frdr_endpoint['server']
+            self.server = 'https://2a9f4.8443.dn.glob.us'  # frdr_endpoint['https_server']
 
 
 
@@ -189,11 +190,6 @@ class GlobusRemote(SpecialRemote):
         """Requests the remote to initialize itself. Idempotent call"""
         self._send_version()
         # for now we assume to work with refresh tokens, so when instantiated they should last
-        if not self.auth_token and not self.transfer_token:
-            self.auth_token = 'Ag4E8xNG2b60v80l6y1KMyqJOXYNO8KoWa14kwxDe718B31Egps7CaOVDqDP85Eaba19rzv4Jbv00ysjXWYx6s8Kx8UbgYEhNYmK'
-            self.transfer_token = 'AgJBGpXnnwqzGGBvDVeB01QW16mW5jYNY35MXav2kGB1da0VzDF0Cv0JjnjgOoMk6xGQ7w9NwJXkkas3z59NJCwV8G'
-            # self._setup()
-        print(self.auth_token, self.transfer_token)
 
     def prepare(self):
         self._send_version()
@@ -215,8 +211,10 @@ class GlobusRemote(SpecialRemote):
 
     def transfer_retrieve(self, key, filename):
         print("I AM IN TRANSFER RETRIEVE")
+        self.authenticate()
         # look up key in lookup url to get the location
         location = self._calclocation(key)
+        print('This is ', location)
         return self._do_retrieve(location, filename)
 
     def checkpresent(self, key):
@@ -230,10 +228,10 @@ class GlobusRemote(SpecialRemote):
         pass
 
     def _calclocation(self, key):
-        print("CALC LOC")
+        print(key)
         # return '/'.join((self.directory, filename=hashkey))
         # which is the same as:
-        return self.server + urls.get(key).split('~')[1]
+        return self.server + lookup_url[key].split('~')[1]
 
     # TODO: decorate it to return multiple files in multiple locations
     def _do_retrieve(self, location, filename):
@@ -351,6 +349,17 @@ def main():
                 master = Master(devnull)
                 remote = GlobusRemote(master)
                 remote.setup()
+            return 0
+        if sys.argv[1] == 'get':
+            with open(os.devnull, 'w') as devnull:
+                master = Master(devnull)
+                remote = GlobusRemote(master)
+                filename = sys.argv[2]
+                try:
+                    # key = eval('sha256sum $filename')
+                    remote.transfer_retrieve('b35c4252dcc5e1f33999289f75def9ae1eaa70614c6957254e2e9ff4e65bd8f7', filename)
+                except Exception as e:
+                    print(e)
             return 0
     else:
         output = sys.stdout
