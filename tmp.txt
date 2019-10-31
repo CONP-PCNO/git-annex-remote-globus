@@ -1,174 +1,174 @@
-b35c4252dcc5e1f33999289f75def9ae1eaa70614c6957254e2e9ff4e65bd8f7 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/mask/mask.mat
-ada6e6f11a550ad74b5de919c6ae915db950a3bd7762040f4e49e86cde94e150 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/processed/2015_11_18_4_filtered0.1to10.mat
-94df7d8ff1554e83ddb0b8fd17b077a76f1fedc7ae2388311d3f718ee6594d20 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/processed/2015_11_18_5_filtered0.1to10.mat
-5b3bf03ac18cbb87a3c6418ed4e0d57dec7f95c7617c8d0876b2232b3e4185cc /~/5/published/publication_170/submitted_data/2015_11_18_cortex/processed/2015_11_18_6_filtered0.1to10.mat
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/raw images/2015-11-18-4-9electrodein-iso0.5.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/raw images/2015-11-18-5-9electrodein-iso0.5.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/raw images/2015-11-18-6-9electrodein-iso0.5.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c1.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c2.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c3.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c4.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c5.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c6.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c7.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c8.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c1.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c2.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c3.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c4.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c5.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c6.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c7.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c8.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c1.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c2.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c3.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c4.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c5.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c6.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c7.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c8.txt
-3f08c684f6a411ae29a020b48fbc1f7da4825670f6c093aa0922f9a67d57ae53 /~/5/published/publication_170/submitted_data/2015_11_18_cortex/2015_11_18_cortex.json
-802c707deef8260d81bed97cd496f924e0dfcee305ee6356f8428f21527316f9 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/mask/mask.mat
-94db0ade273e87df51a2118e6c6313b824b66ef8e593196ef3ab690d5363ea81 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/processed/2015-12-11-1-10electincortex-iso1_0.1_10Hz.mat
-642d0e2b8a5efa1c6cbde7cb65ec5847e77f004f3105ed2f35dee2710460bb0c /~/5/published/publication_170/submitted_data/2015_12_11_cortex/processed/2015-12-11-2-10electincortex-iso1_0.1_10Hz.mat
-2e6e41416f621fde4b4f7151aa29e419b4a32d5d99cc45aa14be68d91199a765 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/processed/2015-12-11-3-10electincortex-iso1_0.1_10Hz.mat
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/raw images/2015-12-11-1-10electincortex-iso1.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/raw images/2015-12-11-2-10electincortex-iso1.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/raw images/2015-12-11-3-10electincortex-iso1.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-1/c4.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-1/c6.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-1/c8.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-1/ch11.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-1/ch14.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-2/c4.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-2/c6.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-2/c8.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-2/ch11.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-2/ch14.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-3/c11.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-3/c14.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-3/c4.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-3/c6.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-3/c8.txt
-a29ef5462ae2a1fb380b5bfb51c3bf5cda380bd68b48c1bd7d4093b5914ec259 /~/5/published/publication_170/submitted_data/2015_12_11_cortex/2015_12_11_cortex.json
-040558dafac8c580e35a706a79f8b472c0147941f948d194fcdc2a0164a21bbb /~/5/published/publication_170/submitted_data/2015_12_2_cortex/mask/mask.mat
-3690c1d2521b931b0abd723fd1564344d0163b9cf2f61688e1ff810afb6732de /~/5/published/publication_170/submitted_data/2015_12_2_cortex/processed/2015-12-2-2-10electrodeincortex-iso1_0.1_10Hz.mat
-e7cd663a3638a29578b51d6d23a80f5f57a3cd4774c646e07eff6dbe3674b92e /~/5/published/publication_170/submitted_data/2015_12_2_cortex/processed/2015-12-2-3-10electrodeincortex-iso1_0.1_10Hz.mat
-77604ef35bfaf0f75f217cb23d13e0a7c7ef900a90188036be23fa6c39769412 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/processed/2015-12-2-4-10electrodeincortex-iso1_0.1_10Hz.mat
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/raw images/2015-12-2-2-10electrodeincortex-iso1.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/raw images/2015-12-2-3-10electrodeincortex-iso1.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/raw images/2015-12-2-4-10electrodeincortex-iso1.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-2/c3.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-2/c6.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-2/c8.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-2/cc10.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-2/cc11.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-2/cc14.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-3/c3.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-3/c6.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-3/c8.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-3/cc10.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-3/cc11.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-3/cc14.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-4/c3.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-4/c6.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-4/c8.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-4/cc10.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-4/cc11.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-4/cc14.txt
-d23977d46db7182f84f88f87a609cfe509f1d909bed63c309dae3cc4156215a2 /~/5/published/publication_170/submitted_data/2015_12_2_cortex/2015_12_2_cortex.json
-9d357cd53ee27a9bdbb9ff155b1c28524e84ad129a04d1f3eac7ebd733153c15 /~/5/published/publication_170/submitted_data/2015_5_6_striatum/mask/2015-5-6_mask.mat
-c7469f2088a3a25ec48d3dacd7f9b0ebf7b0f9d5fd40d55ac60cb37b68cf2e4f /~/5/published/publication_170/submitted_data/2015_5_6_striatum/processed/2015_5_6_4_filtered0.1to10.mat
-9bb9bf15501614b7bddb994d5df5c858413790149e8e0fc01d259b4303239ffe /~/5/published/publication_170/submitted_data/2015_5_6_striatum/processed/2015_5_6_5_filtered0.1to10.mat
-0efa13d83840597ac08b5f052cac27f8799db0a2c2ae521421c5f18ef9120d7b /~/5/published/publication_170/submitted_data/2015_5_6_striatum/processed/2015_5_6_6_filtered0.1to10.mat
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_5_6_striatum/raw images/2015-5-6-4.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_5_6_striatum/raw images/2015-5-6-5.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_5_6_striatum/raw images/2015-5-6-6.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_5_6_striatum/spike train/2015_5_6_4/c14.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_5_6_striatum/spike train/2015_5_6_4/c15.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_5_6_striatum/spike train/2015_5_6_5/c14.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_5_6_striatum/spike train/2015_5_6_5/c15.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_5_6_striatum/spike train/2015_5_6_6/c14.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_5_6_striatum/spike train/2015_5_6_6/c15.txt
-321234ae09abc286b73c602892256bf5eb0dc0791dbf39c6fa3b2e018f06f824 /~/5/published/publication_170/submitted_data/2015_5_6_striatum/2015_5_6_stratium.json
-de0ebd457dea41ab41820f37ad7db415e406ab335e7c00b22f210339824852c7 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/mask/mask.mat
-8cfd53e688571d3d918d0559994c1880ec8124b73360a645c112b0e5b944481b /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/processed/2017_7_22_1_0.1_10Hz.mat
-edf169f23576ff3e9926155b978c788cc3105b4fafe0ea8dfa13e1e5e4ed5f5f /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/processed/2017_7_22_2_0.1_10Hz.mat
-c8adf12ea195a0fcfc42a1bcbef5ff3604201c2c34ab210429540e6d6b08d568 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/processed/2017_7_22_3_0.1_10Hz.mat
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/raw images/2015-7-22-1.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/raw images/2015-7-22-2.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/raw images/2015-7-22-3.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/11_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/12_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/13_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/14_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/15_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/16_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/21_h.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/22_h.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/23_h.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/24_h_1.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/24_h_2.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/25_h.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/11_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/12_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/13_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/14_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/15_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/16_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/21_h.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/22_h.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/23_h.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/24_h_1.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/24_h_2.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/25_h.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/11_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/12_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/13_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/14_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/15_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/16_c.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/21_h.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/22_h.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/23_h.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/24_h_1.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/24_h_2.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/25_h.txt
-2a795333cb8fcba78a61c2e71c3480b099bb5f674efb9d4a1b76648b59fa6b50 /~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/2015_7_22_cortex_hippocampus.json
-4c801f51eebcafe3006632276bf20e3f8d732cc0afd35fc6e2cbe60b55919592 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/mask/mask.mat
-344b30f0bcf999ebfe1131bf6235d793d0a6b00b5f2427d1e21effab806c1d99 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/processed/2015_7_23_2_0.1_10Hz.mat
-833123cb6b9039eb8308b2693fee6cb4450a56a46083debad154b5b420eba70e /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/processed/2015_7_23_3_0.1_10Hz.mat
-259e992345b36ea2cad771fa041c1d82c089b092e447f8d386ed187edb33b3e3 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/processed/2015_7_23_4_0.1_10Hz.mat
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/raw images/2015-7-23-2.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/raw images/2015-7-23-3.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/raw images/2015-7-23-4.tif
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c1.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c2.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c3.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c4.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c5.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c6.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c7.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c8.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c9.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c1.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c2.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c3.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c4.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c5.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c6.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c7.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c8.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c9.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c1.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c2.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c3.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c4.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c5.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c6.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c7.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c8.txt
-a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c9.txt
-8f2dd3dd4f8e7ccd068c07393a219501dffb6910e76142f947a185d1682839a3 /~/5/published/publication_170/submitted_data/2015_7_23_thalamus/2015_7_23_thalamus.json
+'b35c4252dcc5e1f33999289f75def9ae1eaa70614c6957254e2e9ff4e65bd8f7':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/mask/mask.mat',
+'ada6e6f11a550ad74b5de919c6ae915db950a3bd7762040f4e49e86cde94e150':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/processed/2015_11_18_4_filtered0.1to10.mat',
+'94df7d8ff1554e83ddb0b8fd17b077a76f1fedc7ae2388311d3f718ee6594d20':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/processed/2015_11_18_5_filtered0.1to10.mat',
+'5b3bf03ac18cbb87a3c6418ed4e0d57dec7f95c7617c8d0876b2232b3e4185cc':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/processed/2015_11_18_6_filtered0.1to10.mat',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/raw images/2015-11-18-4-9electrodein-iso0.5.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/raw images/2015-11-18-5-9electrodein-iso0.5.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/raw images/2015-11-18-6-9electrodein-iso0.5.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c1.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c2.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c3.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c4.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c5.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c6.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c7.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-4/c8.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c1.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c2.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c3.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c4.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c5.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c6.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c7.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-5/c8.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c1.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c2.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c3.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c4.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c5.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c6.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c7.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/spike train/2015-11-18-6/c8.txt',
+'3f08c684f6a411ae29a020b48fbc1f7da4825670f6c093aa0922f9a67d57ae53':'/~/5/published/publication_170/submitted_data/2015_11_18_cortex/2015_11_18_cortex.json',
+'802c707deef8260d81bed97cd496f924e0dfcee305ee6356f8428f21527316f9':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/mask/mask.mat',
+'94db0ade273e87df51a2118e6c6313b824b66ef8e593196ef3ab690d5363ea81':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/processed/2015-12-11-1-10electincortex-iso1_0.1_10Hz.mat',
+'642d0e2b8a5efa1c6cbde7cb65ec5847e77f004f3105ed2f35dee2710460bb0c':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/processed/2015-12-11-2-10electincortex-iso1_0.1_10Hz.mat',
+'2e6e41416f621fde4b4f7151aa29e419b4a32d5d99cc45aa14be68d91199a765':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/processed/2015-12-11-3-10electincortex-iso1_0.1_10Hz.mat',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/raw images/2015-12-11-1-10electincortex-iso1.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/raw images/2015-12-11-2-10electincortex-iso1.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/raw images/2015-12-11-3-10electincortex-iso1.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-1/c4.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-1/c6.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-1/c8.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-1/ch11.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-1/ch14.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-2/c4.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-2/c6.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-2/c8.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-2/ch11.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-2/ch14.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-3/c11.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-3/c14.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-3/c4.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-3/c6.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/spike train/2015-12-11-3/c8.txt',
+'a29ef5462ae2a1fb380b5bfb51c3bf5cda380bd68b48c1bd7d4093b5914ec259':'/~/5/published/publication_170/submitted_data/2015_12_11_cortex/2015_12_11_cortex.json',
+'040558dafac8c580e35a706a79f8b472c0147941f948d194fcdc2a0164a21bbb':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/mask/mask.mat',
+'3690c1d2521b931b0abd723fd1564344d0163b9cf2f61688e1ff810afb6732de':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/processed/2015-12-2-2-10electrodeincortex-iso1_0.1_10Hz.mat',
+'e7cd663a3638a29578b51d6d23a80f5f57a3cd4774c646e07eff6dbe3674b92e':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/processed/2015-12-2-3-10electrodeincortex-iso1_0.1_10Hz.mat',
+'77604ef35bfaf0f75f217cb23d13e0a7c7ef900a90188036be23fa6c39769412':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/processed/2015-12-2-4-10electrodeincortex-iso1_0.1_10Hz.mat',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/raw images/2015-12-2-2-10electrodeincortex-iso1.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/raw images/2015-12-2-3-10electrodeincortex-iso1.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/raw images/2015-12-2-4-10electrodeincortex-iso1.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-2/c3.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-2/c6.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-2/c8.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-2/cc10.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-2/cc11.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-2/cc14.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-3/c3.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-3/c6.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-3/c8.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-3/cc10.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-3/cc11.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-3/cc14.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-4/c3.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-4/c6.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-4/c8.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-4/cc10.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-4/cc11.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/spike train/2015-12-2-4/cc14.txt',
+'d23977d46db7182f84f88f87a609cfe509f1d909bed63c309dae3cc4156215a2':'/~/5/published/publication_170/submitted_data/2015_12_2_cortex/2015_12_2_cortex.json',
+'9d357cd53ee27a9bdbb9ff155b1c28524e84ad129a04d1f3eac7ebd733153c15':'/~/5/published/publication_170/submitted_data/2015_5_6_striatum/mask/2015-5-6_mask.mat',
+'c7469f2088a3a25ec48d3dacd7f9b0ebf7b0f9d5fd40d55ac60cb37b68cf2e4f':'/~/5/published/publication_170/submitted_data/2015_5_6_striatum/processed/2015_5_6_4_filtered0.1to10.mat',
+'9bb9bf15501614b7bddb994d5df5c858413790149e8e0fc01d259b4303239ffe':'/~/5/published/publication_170/submitted_data/2015_5_6_striatum/processed/2015_5_6_5_filtered0.1to10.mat',
+'0efa13d83840597ac08b5f052cac27f8799db0a2c2ae521421c5f18ef9120d7b':'/~/5/published/publication_170/submitted_data/2015_5_6_striatum/processed/2015_5_6_6_filtered0.1to10.mat',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_5_6_striatum/raw images/2015-5-6-4.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_5_6_striatum/raw images/2015-5-6-5.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_5_6_striatum/raw images/2015-5-6-6.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_5_6_striatum/spike train/2015_5_6_4/c14.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_5_6_striatum/spike train/2015_5_6_4/c15.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_5_6_striatum/spike train/2015_5_6_5/c14.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_5_6_striatum/spike train/2015_5_6_5/c15.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_5_6_striatum/spike train/2015_5_6_6/c14.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_5_6_striatum/spike train/2015_5_6_6/c15.txt',
+'321234ae09abc286b73c602892256bf5eb0dc0791dbf39c6fa3b2e018f06f824':'/~/5/published/publication_170/submitted_data/2015_5_6_striatum/2015_5_6_stratium.json',
+'de0ebd457dea41ab41820f37ad7db415e406ab335e7c00b22f210339824852c7':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/mask/mask.mat',
+'8cfd53e688571d3d918d0559994c1880ec8124b73360a645c112b0e5b944481b':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/processed/2017_7_22_1_0.1_10Hz.mat',
+'edf169f23576ff3e9926155b978c788cc3105b4fafe0ea8dfa13e1e5e4ed5f5f':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/processed/2017_7_22_2_0.1_10Hz.mat',
+'c8adf12ea195a0fcfc42a1bcbef5ff3604201c2c34ab210429540e6d6b08d568':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/processed/2017_7_22_3_0.1_10Hz.mat',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/raw images/2015-7-22-1.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/raw images/2015-7-22-2.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/raw images/2015-7-22-3.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/11_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/12_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/13_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/14_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/15_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/16_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/21_h.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/22_h.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/23_h.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/24_h_1.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/24_h_2.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_1/25_h.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/11_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/12_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/13_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/14_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/15_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/16_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/21_h.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/22_h.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/23_h.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/24_h_1.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/24_h_2.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_2/25_h.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/11_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/12_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/13_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/14_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/15_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/16_c.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/21_h.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/22_h.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/23_h.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/24_h_1.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/24_h_2.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/spike train/2017_7_22_3/25_h.txt',
+'2a795333cb8fcba78a61c2e71c3480b099bb5f674efb9d4a1b76648b59fa6b50':'/~/5/published/publication_170/submitted_data/2015_7_22_cortex_hippocampus/2015_7_22_cortex_hippocampus.json',
+'4c801f51eebcafe3006632276bf20e3f8d732cc0afd35fc6e2cbe60b55919592':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/mask/mask.mat',
+'344b30f0bcf999ebfe1131bf6235d793d0a6b00b5f2427d1e21effab806c1d99':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/processed/2015_7_23_2_0.1_10Hz.mat',
+'833123cb6b9039eb8308b2693fee6cb4450a56a46083debad154b5b420eba70e':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/processed/2015_7_23_3_0.1_10Hz.mat',
+'259e992345b36ea2cad771fa041c1d82c089b092e447f8d386ed187edb33b3e3':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/processed/2015_7_23_4_0.1_10Hz.mat',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/raw images/2015-7-23-2.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/raw images/2015-7-23-3.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/raw images/2015-7-23-4.tif',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c1.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c2.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c3.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c4.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c5.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c6.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c7.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c8.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-2/c9.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c1.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c2.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c3.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c4.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c5.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c6.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c7.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c8.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-3/c9.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c1.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c2.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c3.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c4.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c5.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c6.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c7.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c8.txt',
+'a5c402fa795aa7b38c40559c9d1e2904c1e049580e216b292466d6c0634e9ab6':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/spike train/2015-7-23-4/c9.txt',
+'8f2dd3dd4f8e7ccd068c07393a219501dffb6910e76142f947a185d1682839a3':'/~/5/published/publication_170/submitted_data/2015_7_23_thalamus/2015_7_23_thalamus.json',
