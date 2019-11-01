@@ -232,6 +232,13 @@ class GlobusRemote(SpecialRemote):
         # which is the same as:
         return self.server + lookup_url[key].split('~')[1]
 
+    def _get_key(self, path):
+        # path takes to a symlink which get decoded e.g. path/to/file.txt -> something--key.txt
+        # presence of 'key' is checked in globus
+        # if present, the key gets returned
+
+
+
     # TODO: decorate it to return multiple files in multiple locations
     def _do_retrieve(self, location, filename):
         print("I AM IN RETRIEVE")
@@ -344,6 +351,7 @@ class GlobusRemote(SpecialRemote):
 def main():
     if len(sys.argv) > 1:
         if sys.argv[1] == 'setup':
+            print(sys.argv)
             with open(os.devnull, 'w') as devnull:
                 master = Master(devnull)
                 remote = GlobusRemote(master)
@@ -353,16 +361,20 @@ def main():
             with open(os.devnull, 'w') as devnull:
                 master = Master(devnull)
                 remote = GlobusRemote(master)
-                filename = sys.argv[2]
+                path = sys.argv[2]
                 try:
-                    # key = eval('sha256sum $filename')
-                    remote.transfer_retrieve('b35c4252dcc5e1f33999289f75def9ae1eaa70614c6957254e2e9ff4e65bd8f7', filename)
+                    key = remote._get_key(path)
+                    # remote.checkpresent(key)
+                    filename = path.split('/')[-1]
+                    print(filename)
+                    remote.transfer_retrieve(key, filename)
                 except Exception as e:
                     print(e)
             return 0
     else:
         output = sys.stdout
         sys.stdout = sys.stderr
+        print('this is ', output)
 
         master = Master(output)
         remote = GlobusRemote(master)
