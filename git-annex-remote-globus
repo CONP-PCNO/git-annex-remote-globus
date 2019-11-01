@@ -242,7 +242,6 @@ class GlobusRemote(SpecialRemote):
         print(key)
         return key
 
-
     # TODO: decorate it to return multiple files in multiple locations
     def _do_retrieve(self, location, filename):
         print("I AM IN RETRIEVE")
