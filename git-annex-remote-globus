@@ -230,7 +230,7 @@ class GlobusRemote(SpecialRemote):
         print(key)
         # return '/'.join((self.directory, filename=hashkey))
         # which is the same as:
-        return self.server + lookup_url[key].split('~')[1]
+        return self.server + lookup_url[key]
 
     def get_key(self, path):
         # path takes to a symlink which get decoded e.g. path/to/file.txt -> something--key.txt
