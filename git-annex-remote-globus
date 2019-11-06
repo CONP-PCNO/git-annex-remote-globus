@@ -59,8 +59,6 @@ class GlobusRemote(SpecialRemote):
         self.expire_at_s = None
         self.auth_token = None
         self.transfer_token = None
-        # for now we can call it from here, we can make a separate command call if required, to complete the setup
-        # self._setup()
 
     @staticmethod
     def load_tokens_from_file(filepath):
@@ -83,11 +81,9 @@ class GlobusRemote(SpecialRemote):
         """
         self.save_tokens_to_file(self.TOKEN_FILE, token_response.by_resource_server)
 
-    def do_native_app_authentication(self, client_id, redirect_uri,
-                                     requested_scopes=None):
+    def do_native_app_authentication(self, client_id, redirect_uri, requested_scopes=None):
         """
-        Does a Native App authentication flow and returns a
-        dict of tokens keyed by service name.
+        Does a Native App authentication flow and returns a dict of tokens keyed by service name.
         """
         client = globus_sdk.NativeAppAuthClient(client_id=client_id)
         # pass refresh_tokens=True to request refresh tokens
@@ -110,11 +106,9 @@ class GlobusRemote(SpecialRemote):
         return token_response.by_resource_server
 
     def setup(self):
-
-        print("Im in setup")
-
-        # Load credentials, obtain or refresh tokens if they are not in token files, maybe authorize ?
-
+        """
+        Load credentials, obtain or refresh tokens if they are not in token files
+        """
         tokens = None
         try:
             # if we already have tokens, load and use them
@@ -132,11 +126,12 @@ class GlobusRemote(SpecialRemote):
                 print('save tokens to file exception: ', e)
 
     def authenticate(self):
+        """
+        Manages authentication to Globus
+        """
         # get tokens from tokens files
         tokens = self.load_tokens_from_file(self.TOKEN_FILE)
         transfer_tokens = tokens['transfer.api.globus.org']
-
-        print('TRANSFER TOKEN: ', transfer_tokens)
 
         auth_client = NativeAppAuthClient(client_id=self.CLIENT_ID)
 
@@ -151,6 +146,7 @@ class GlobusRemote(SpecialRemote):
 
         # print out endpoint details
         try:
+            # TODO: make dataset dynamic
             # break PaginatedResponse object by applying a for loop
             for obj in transfer.endpoint_search(filter_fulltext='FRDR-Prod-2', num_results=1):
                 print(obj['https_server'])
@@ -182,13 +178,14 @@ class GlobusRemote(SpecialRemote):
         # assert frdr_endpoint is None
 
     def initremote(self):
-        print("I am in initremote - here initialization takes place")
+
+        """Requests the remote to initialize itself. Idempotent call"""
+        print("Globus Special Remote is initializing..")
+
         # TODO need to think on how to make this call relevant and indempotent to users.
         #  Think of scenarios of many users and many sessions. Do they need different tokens?
 
-        """Requests the remote to initialize itself. Idempotent call"""
         self._send_version()
-        # for now we assume to work with refresh tokens, so when instantiated they should last
 
     def prepare(self):
         self._send_version()
@@ -261,7 +258,8 @@ class GlobusRemote(SpecialRemote):
 
     def _send_version(self):
         print('VERSION 1')
-    ## Export methods
+
+    # Export methods
     # def transferexport_store(self, key, local_file, remote_file):
     #     location = '/'.join((self.directory, remote_file))
     #     self._do_store(key, local_file, location)
@@ -377,7 +375,6 @@ def main():
     else:
         output = sys.stdout
         sys.stdout = sys.stderr
-        print('this is ', output)
 
         master = Master(output)
         remote = GlobusRemote(master)
