@@ -178,22 +178,24 @@ class GlobusRemote(SpecialRemote):
         # assert frdr_endpoint is None
 
     def initremote(self):
-
         """Requests the remote to initialize itself. Idempotent call"""
+
         print("Globus Special Remote is initializing..")
 
-        # TODO need to think on how to make this call relevant and indempotent to users.
-        #  Think of scenarios of many users and many sessions. Do they need different tokens?
+        # TODO: maybe send dataset Globus repo here? Maybe add Setup here
 
         self._send_version()
 
     def prepare(self):
+        """Connection takes place between Globus and git-annex"""
         self._send_version()
-        self.authenticate()  # may not need the rest
+        # directory_name = self.annex.getconfig('directory')
         # ask git - annex for its configuration
+        directory_name = 'FRDR-Prod-2'
+        self.authenticate()
         # self.directory = self.annex.getconfig('directory')
         print("I am in prepare - here the connection takes place")
-        # self.directory = self.annex.getconfig('directory')
+
         # if not self.directory:
         #     # we may assume it is your current directory
         #     print("j")
@@ -206,7 +208,7 @@ class GlobusRemote(SpecialRemote):
         pass
 
     def transfer_retrieve(self, key, filename):
-        print("I AM IN TRANSFER RETRIEVE")
+        """Manages retrieving files operation from Globus"""
         self.authenticate()
         # look up key in lookup url to get the location
         location = self._calclocation(key)
