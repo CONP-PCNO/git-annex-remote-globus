@@ -47,11 +47,9 @@ class GlobusRemote(SpecialRemote):
     SCOPES = ('openid email profile '
               'urn:globus:auth:scope:transfer.api.globus.org:all')
 
-    TUTORIAL_ENDPOINT_ID = 'ddb59aef-6d04-11e5-ba46-22000b92c6ec'
-
     get_input = getattr(__builtins__, 'raw_input', input)
 
-    def __init__(self, annex, uuid):
+    def __init__(self, annex):
         super(GlobusRemote, self).__init__(annex)
         self.server = None
         self.refresh_token = None
@@ -59,7 +57,6 @@ class GlobusRemote(SpecialRemote):
         self.expire_at_s = None
         self.auth_token = None
         self.transfer_token = None
-        self.uuid = uuid
 
     @staticmethod
     def load_tokens_from_file(filepath):
@@ -183,7 +180,7 @@ class GlobusRemote(SpecialRemote):
         # frdr_endpoint = transfer.endpoint_search(filter_fulltext='FRDR-Prod-2', num_results=None)
         # assert frdr_endpoint is None
 
-    def initremote(self):
+    def initremote(self, dataset_info):
         """Requests the remote to initialize itself. Idempotent call"""
 
         print("Globus Special Remote is initializing..")
@@ -194,8 +191,8 @@ class GlobusRemote(SpecialRemote):
         # get root information to construct globus files location
         self.uuid = self.annex.getconfig('uuid')
         dir_name = self.annex.getconfig('name')
-        if not self.prefix and not dir_name:
-            raise RemoteError("Either prefix or uuid must be given.")
+        if not self.uuid and not dir_name:
+            raise RemoteError("Either directory name or uuid must be given.")
         if not self.uuid and dir_name:
             self.uuid = self.set_endpoint_id()
 
@@ -393,10 +390,11 @@ def main():
                     print(e)
             return 0
     else:
+        # print(sys.argv)
         output = sys.stdout
         sys.stdout = sys.stderr
-        opts, args = getopt.getopt(sys.argv[0:], "d", ["dataset"])
-        print(opts, args)
+        # opts, args = getopt.getopt(sys.argv[0:], "d", ["dataset"])
+        # print(opts, args)
         master = Master(output)
         remote = GlobusRemote(master, uuid='gpwkdidd')
         master.LinkRemote(remote)
