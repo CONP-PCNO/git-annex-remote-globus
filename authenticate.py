@@ -83,8 +83,6 @@ globus_transfer_data = token_response.by_resource_server['transfer.api.globus.or
 AUTH_TOKEN = globus_auth_data['access_token']
 TRANSFER_TOKEN = globus_transfer_data['access_token']
 
-print(AUTH_TOKEN)
-print(TRANSFER_TOKEN)
 
 # a GlobusAuthorizer is an auxiliary object we use to wrap the token. In
 # more advanced scenarios, other types of GlobusAuthorizers give us
@@ -96,23 +94,25 @@ tc = globus_sdk.TransferClient(authorizer=authorizer)
 # GET THE FRDR-Prod-2 ID (This is what we need)
 
 frdr_id = get_endpoint_id()
+ser = tc.get_endpoint(frdr_id)
+print(ser['https_server'])
 
-url1 = 'https://2a9f4.8443.dn.glob.us/5/published/publication_170/submitted_data/2015_12_11_cortex/2015_12_11_cortex.json'
-base_path = '/~/5/published/publication_170/submitted_data/'
-
-folder = 'output'
-if os.path.isdir(folder):
-    for file in os.listdir(folder):
-        file_path = op.join(folder, file)
-        try:
-            # assume there will be only files
-            if os.path.isfile(file_path):
-                os.unlink(file_path)
-        except Exception as e:
-            print(e)
-else:
-    os.makedirs(folder)
-
-get_path_content(frdr_id, base_path)
+# url1 = 'https://2a9f4.8443.dn.glob.us/5/published/publication_170/submitted_data/2015_12_11_cortex/2015_12_11_cortex.json'
+# base_path = '/~/5/published/publication_170/submitted_data/'
+#
+# folder = 'output'
+# if os.path.isdir(folder):
+#     for file in os.listdir(folder):
+#         file_path = op.join(folder, file)
+#         try:
+#             # assume there will be only files
+#             if os.path.isfile(file_path):
+#                 os.unlink(file_path)
+#         except Exception as e:
+#             print(e)
+# else:
+#     os.makedirs(folder)
+#
+# get_path_content(frdr_id, base_path)
 
 

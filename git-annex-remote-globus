@@ -9,7 +9,7 @@
 
 import sys, os, errno
 import wget
-
+import getopt
 from lookup_url import lookup_url
 import globus_sdk
 import json
@@ -51,7 +51,7 @@ class GlobusRemote(SpecialRemote):
 
     get_input = getattr(__builtins__, 'raw_input', input)
 
-    def __init__(self, annex):
+    def __init__(self, annex, uuid):
         super(GlobusRemote, self).__init__(annex)
         self.server = None
         self.refresh_token = None
@@ -59,6 +59,7 @@ class GlobusRemote(SpecialRemote):
         self.expire_at_s = None
         self.auth_token = None
         self.transfer_token = None
+        self.uuid = uuid
 
     @staticmethod
     def load_tokens_from_file(filepath):
@@ -127,7 +128,7 @@ class GlobusRemote(SpecialRemote):
 
     def authenticate(self):
         """
-        Manages authentication to Globus
+        Manages authentication to Globus and returns transfer client to enable operations on dataset
         """
         # get tokens from tokens files
         tokens = self.load_tokens_from_file(self.TOKEN_FILE)
@@ -143,14 +144,19 @@ class GlobusRemote(SpecialRemote):
             on_refresh=self.update_tokens_file_on_refresh)
 
         transfer = TransferClient(authorizer=authorizer)
+        return transfer
 
+    def get_endpoint_id(self, dir_name):
+        transfer_client = self.authenticate()
+        for ep in transfer_client.endpoint_search(filter_fulltext=dir_name, num_results=None):
+            return ep['id']
+
+    def set_endpoint_server(self, endpoint_id):
+        transfer_client = self.authenticate()
         # print out endpoint details
         try:
-            # TODO: make dataset dynamic
-            # break PaginatedResponse object by applying a for loop
-            for obj in transfer.endpoint_search(filter_fulltext='FRDR-Prod-2', num_results=1):
-                print(obj['https_server'])
-                self.server = obj['https_server']
+            obj = transfer_client.get_endpoint(endpoint_id)
+            self.server = obj['https_server']
         except GlobusAPIError as ex:
             print(ex)
             if ex.http_status == 401:
@@ -181,20 +187,24 @@ class GlobusRemote(SpecialRemote):
         """Requests the remote to initialize itself. Idempotent call"""
 
         print("Globus Special Remote is initializing..")
-
         # TODO: maybe send dataset Globus repo here? Maybe add Setup here
-
         self._send_version()
+        # get tokens if you do not have
+        self.setup()
+        # get root information to construct globus files location
+        self.uuid = self.annex.getconfig('uuid')
+        dir_name = self.annex.getconfig('name')
+        if not self.prefix and not dir_name:
+            raise RemoteError("Either prefix or uuid must be given.")
+        if not self.uuid and dir_name:
+            self.uuid = self.set_endpoint_id()
 
     def prepare(self):
         """Connection takes place between Globus and git-annex"""
-        self._send_version()
-        # directory_name = self.annex.getconfig('directory')
-        # ask git - annex for its configuration
-        directory_name = 'FRDR-Prod-2'
-        self.authenticate()
-        # self.directory = self.annex.getconfig('directory')
         print("I am in prepare - here the connection takes place")
+        self._send_version()
+
+        self.set_endpoint_server(self.uuid)
 
         # if not self.directory:
         #     # we may assume it is your current directory
@@ -209,14 +219,17 @@ class GlobusRemote(SpecialRemote):
 
     def transfer_retrieve(self, key, filename):
         """Manages retrieving files operation from Globus"""
-        self.authenticate()
+        # self.authenticate()
         # look up key in lookup url to get the location
         location = self._calclocation(key)
         print('This is ', location)
         return self._do_retrieve(location, filename)
 
     def checkpresent(self, key):
+        print('I am in checkpresent')
+        """Manages checking for presence of file by its key in the given Globus location"""
         location = self._calclocation(key)
+        print("LOCATION: ", location)
         return self._do_checkpresent(key, location)
 
     def remove(self, key):
@@ -254,9 +267,14 @@ class GlobusRemote(SpecialRemote):
             raise RemoteError(e)
 
     def _do_checkpresent(self, key, location):
-        if not os.path.exists(self.directory):
-            raise RemoteError("this remote is not currently available")
-        return os.path.isfile(location)
+        """Checks presence of file by its key in the given Globus location"""
+        if lookup_url[key]:
+            print('file present in Globus')
+            return True
+        return False
+        # if not os.path.exists(self.directory):
+        #    raise RemoteError("this remote is not currently available")
+        # return os.path.isfile(location)
 
     def _send_version(self):
         print('VERSION 1')
@@ -377,9 +395,10 @@ def main():
     else:
         output = sys.stdout
         sys.stdout = sys.stderr
-
+        opts, args = getopt.getopt(sys.argv[0:], "d", ["dataset"])
+        print(opts, args)
         master = Master(output)
-        remote = GlobusRemote(master)
+        remote = GlobusRemote(master, uuid='gpwkdidd')
         master.LinkRemote(remote)
         master.Listen()
 
