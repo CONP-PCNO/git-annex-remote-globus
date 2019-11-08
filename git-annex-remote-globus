@@ -57,6 +57,8 @@ class GlobusRemote(SpecialRemote):
         self.expire_at_s = None
         self.auth_token = None
         self.transfer_token = None
+        self.uuid = None
+        self.path = None
 
     @staticmethod
     def load_tokens_from_file(filepath):
@@ -180,21 +182,30 @@ class GlobusRemote(SpecialRemote):
         # frdr_endpoint = transfer.endpoint_search(filter_fulltext='FRDR-Prod-2', num_results=None)
         # assert frdr_endpoint is None
 
-    def initremote(self, dataset_info):
-        """Requests the remote to initialize itself. Idempotent call"""
+    def initremote(self, endpoint_name='FRDR-Prod-2', endpoint_uuid=None, path=None):
+
+        """Requests the remote to initialize itself. Idempotent call
+        @:param endpoint_name: Endpoint name
+        @:param endpoint_uuid: Endpoint uuid
+        @:param path: *fixed* path under the endpoint directory"""
 
         print("Globus Special Remote is initializing..")
-        # TODO: maybe send dataset Globus repo here? Maybe add Setup here
         self._send_version()
         # get tokens if you do not have
         self.setup()
-        # get root information to construct globus files location
-        self.uuid = self.annex.getconfig('uuid')
-        dir_name = self.annex.getconfig('name')
+
+        # if the uuid is not specified by init/enable remote, query annex for uuid
+        # same for path (subdirectories) and directory where data are stored
+        self.uuid = endpoint_uuid or self.annex.getconfig('uuid')
+        # if path is empty assume files and their various subdirectories will be listed under endpoint directory
+        self.path = path or self.annex.getconfig('directory')
+        dir_name = endpoint_name or self.annex.getconfig('name')
+
         if not self.uuid and not dir_name:
             raise RemoteError("Either directory name or uuid must be given.")
+
         if not self.uuid and dir_name:
-            self.uuid = self.set_endpoint_id()
+            self.uuid = self.get_endpoint_id(dir_name)
 
     def prepare(self):
         """Connection takes place between Globus and git-annex"""
@@ -396,7 +407,7 @@ def main():
         # opts, args = getopt.getopt(sys.argv[0:], "d", ["dataset"])
         # print(opts, args)
         master = Master(output)
-        remote = GlobusRemote(master, uuid='gpwkdidd')
+        remote = GlobusRemote(master)
         master.LinkRemote(remote)
         master.Listen()
 
