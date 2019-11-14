@@ -250,9 +250,7 @@ class GlobusRemote(SpecialRemote):
         """Manages retrieving files operation from Globus"""
         # self.authenticate()
         # look up key in lookup url to get the location
-        location = self._calclocation(key)
-
-        return self._do_retrieve(location, filename)
+        return self._do_retrieve(key, filename)
 
     def checkpresent(self, key):
         """Manages checking for presence of file by its key in the given Globus location"""
@@ -268,48 +266,48 @@ class GlobusRemote(SpecialRemote):
         # self._do_remove(key, location)
         pass
 
-    def _calclocation(self, key):
-        url = None
+    def _get_key_path(self, key):
         key_dir = self.annex.dirhash_lower(key)
-
         # Double key to achieve the same layout as in the special remote
         key_path = Path(key_dir) / key / key
+        return key_path
+
+    def _calclocation(self, key):
+        url = None
+        key_path = self._get_key_path(key)
         # get location with the key path
         # get url from git annex directory
-        if key_path in self.presence_cache.values():
-            url = self.presence_cache[key_path]
+        if key in self.presence_cache.values():
+            # get globus url
+            url = self.presence_cache[key]
         else:
             self.annex.error("A url must be registered for a given key")
         return url
 
-    def _get_prefix_location(self):
-        globus_location = 'globus://{0}{1}'.format(str(self.uuid), self.fileprefix)
-        return globus_location
-
-    def get_key(self, path):
+    def get_key(self, dyn_path):
         # path takes to a symlink which get decoded e.g. path/to/file.txt -> something--key.txt
         # presence of 'key' is checked in globus
+        tmp = '/home/giuly/test/test_FRDR_dataset/'
         # if present, the key gets returned
-        link = os.readlink(path).split('--')[-1]
-        key = link.split(".")[0]
+        path = tmp + dyn_path
+
+        if os.path.islink(path):
+            symlink = os.readlink(path)
+            key = symlink.split("/")[-1]
+            return key  # symlink.split("/")[-1]
         # check presence
-        print(key)
-        return key
+        else:
+            self.annex.error("Not a valid path to symlink")
 
     # TODO: decorate it to return multiple files in multiple locations
-    def _do_retrieve(self, location, filename):
+    def _do_retrieve(self, key, filename):
         # sample input:
         print("TRANSFER RETRIEVE URL-s4250--s3://openfmri/ds116/sub001/BOLD/task001_run001/QA/fd.txt "
               ".git/annex/tmp/URL-s4250--s3&c%%openfmri%ds116%sub001%BOLD%task001_run001%QA%fd.txt")
         # it tries to get http, https, until it finds s3 url to resolve
         # build path with file to be retrieved
         # ADD: check that the key and file are correct,  can use REGEX as the filename may be a path/filename
-        path = os.path.join(location, filename)
-        try:
-            print('Trying download..')
-            wget.download(url=location)
-        except OSError as e:
-            raise RemoteError(e)
+        return key
 
     def claimurl(self, url):
         prefix = str(url).split(':')[0]
@@ -319,15 +317,29 @@ class GlobusRemote(SpecialRemote):
             self.annex.error("Unsupported url")
 
     def checkurl(self, url):
+        reply = []
+        d = dict()
         # checks the url actually has content
+        dyn_path = str(url).split(str(self.fileprefix))[1]
         path = str(url).split(str(self.uuid))[1]
         parent_path = '/~' + os.path.dirname(path)
         child = path.split('/')[-1]
         for file in self.transfer_client.operation_ls(self.uuid, path=parent_path, num_results=None):
             if file['name'] == child:
-                self.annex.info(file)
-                # self.presence_cache(self.get_key(dyn_path)) = url
-                return True
+
+                # set path present after being checked
+                key = str(self.get_key(dyn_path))
+                key_path = str(self._get_key_path(key))
+                self.annex.info(file['size'])
+                self.presence_cache[key] = url
+                # return file size
+                d['size'] = file['size']
+                reply.append(d)
+                return reply
+            else:
+                self.annex.error("Url not valid")
+                # FIXME: maybe this is not needed
+                return 0
 
 
     # Export methods
