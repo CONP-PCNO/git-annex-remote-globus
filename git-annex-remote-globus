@@ -9,7 +9,9 @@
 
 import sys, os, errno
 import wget
-import getopt
+from pathlib import (
+    Path,
+)
 from lookup_url import lookup_url
 import globus_sdk
 import json
@@ -18,7 +20,7 @@ from annexremote import Master
 from annexremote import ExportRemote
 from annexremote import SpecialRemote
 from annexremote import RemoteError, ProtocolError
-
+from subprocess import Popen, check_call
 import json
 import time
 import sys
@@ -52,6 +54,7 @@ class GlobusRemote(SpecialRemote):
 
     def __init__(self, annex):
         super(GlobusRemote, self).__init__(annex)
+        self.presence_cache = dict()
         self.server = None
         self.uuid = None
         self.fileprefix = None
@@ -91,13 +94,10 @@ class GlobusRemote(SpecialRemote):
 
         url = client.oauth2_get_authorize_url()
 
-        # TODO: remove prints out
-        print('Native App Authorization URL: \n{}'.format(url))
-
         if not is_remote_session():
             webbrowser.open(url, new=1)
 
-        auth_code = self.get_input('Enter the auth code: ').strip()
+        auth_code = input().strip()
 
         token_response = client.oauth2_exchange_code_for_tokens(auth_code)
 
@@ -113,7 +113,8 @@ class GlobusRemote(SpecialRemote):
             # if we already have tokens, load and use them
             tokens = self.load_tokens_from_file(self.TOKEN_FILE)
         except Exception as e:
-            self.annex.error('Exception while loading file: ', e)
+            print('Exception while loading file: ', e)
+
         if not tokens:
             # if we need to get tokens, start the Native App authentication process
             tokens = self.do_native_app_authentication(self.CLIENT_ID, self.REDIRECT_URI, self.SCOPES)
@@ -160,7 +161,7 @@ class GlobusRemote(SpecialRemote):
 
         if count == 1:
             # there is a unique id associated with the endpoint name
-            return endpoints_list
+            return endpoints_list[0]
         elif count > 1:
             print('{0} has ID {1}')
             self.annex.error('The endpoint {0} is not unique: {1} were found'.format(dir_name, count))
@@ -206,59 +207,43 @@ class GlobusRemote(SpecialRemote):
         # assert frdr_endpoint is None
 
     def initremote(self):
-
         """Requests the remote to initialize itself. Idempotent call"""
 
-        print("Globus Special Remote is initializing..")
-        # self._send_version()
         # get tokens if you do not have
         self.setup()
 
-        # if the uuid is not specified by init/enable remote, query annex for uuid
-        # same for path (subdirectories) and directory where data are stored
+        # query uuid, fileprefix and directory name from git annex
         self.uuid = self.annex.getconfig('uuid')
-        # if path is empty assume files and their various subdirectories will be listed under endpoint directory
-        # LOOK AT S3
         self.fileprefix = self.annex.getconfig('fileprefix')
-        dir_name = self.annex.getconfig('name')
-        dir_name = 'FRDR_Prod_2'
-        if not self.uuid and not dir_name:
+        endpoint_name = self.annex.getconfig('endpoint')
+
+        if not self.uuid and not endpoint_name:
             raise RemoteError("Either directory name or uuid must be given.")
 
-        if not self.uuid and dir_name:
-            self.uuid = self.get_endpoint_id(dir_name)
+        if not self.uuid and endpoint_name:
+            self.uuid = self.get_endpoint_id(endpoint_name)
 
     def prepare(self):
         """Connection takes place between Globus and git-annex"""
-        print("I am in prepare - here the connection takes place")
-        # self._send_version()
+
         # get tokens if you do not have
         self.setup()
 
-        # if the uuid is not specified by init/enable remote, query annex for uuid
-        # same for path (subdirectories) and directory where data are stored
         self.uuid = self.annex.getconfig('uuid')
-        # if path is empty assume files and their various subdirectories will be listed under endpoint directory
-        self.path = self.annex.getconfig('directory')
-        dir_name = self.annex.getconfig('name')
+        self.fileprefix = self.annex.getconfig('fileprefix')
+        endpoint_name = self.annex.getconfig('endpoint')
 
-        if not self.uuid and not dir_name:
+        if not self.uuid and not endpoint_name:
             raise RemoteError("Either directory name or uuid must be given.")
 
-        if not self.uuid and dir_name:
-            self.uuid = self.get_endpoint_id(dir_name)
+        if not self.uuid and endpoint_name:
+            self.uuid = self.get_endpoint_id(endpoint_name)
 
-        self.set_endpoint_server(self.uuid)
-
-        # if not self.directory:
-        #     # we may assume it is your current directory
-        #     print("j")
+        if not self.server:
+            self.set_endpoint_server(self.uuid)
         
     def transfer_store(self, key, filename):
         # TODO: decide what to do with this RIA
-        print("File cannot be stored in dataset")
-        # location = self._calclocation(key)
-        # self._do_store(key, filename, location)
         pass
 
     def transfer_retrieve(self, key, filename):
@@ -266,15 +251,16 @@ class GlobusRemote(SpecialRemote):
         # self.authenticate()
         # look up key in lookup url to get the location
         location = self._calclocation(key)
-        print('This is ', location)
+
         return self._do_retrieve(location, filename)
 
     def checkpresent(self, key):
-        print('I am in checkpresent')
         """Manages checking for presence of file by its key in the given Globus location"""
-        location = self._calclocation(key)
-        print("LOCATION: ", location)
-        return self._do_checkpresent(key, location)
+        # look through the tree. Check if a url is available in the git-annex branch
+        url = self._calclocation(key)
+        if not url:
+            return False
+        return True
 
     def remove(self, key):
         print("File cannot be removed in dataset")
@@ -283,10 +269,22 @@ class GlobusRemote(SpecialRemote):
         pass
 
     def _calclocation(self, key):
-        print(key)
-        # return '/'.join((self.directory, filename=hashkey))
-        # which is the same as:
-        return self.server + lookup_url[key]
+        url = None
+        key_dir = self.annex.dirhash_lower(key)
+
+        # Double key to achieve the same layout as in the special remote
+        key_path = Path(key_dir) / key / key
+        # get location with the key path
+        # get url from git annex directory
+        if key_path in self.presence_cache.values():
+            url = self.presence_cache[key_path]
+        else:
+            self.annex.error("A url must be registered for a given key")
+        return url
+
+    def _get_prefix_location(self):
+        globus_location = 'globus://{0}{1}'.format(str(self.uuid), self.fileprefix)
+        return globus_location
 
     def get_key(self, path):
         # path takes to a symlink which get decoded e.g. path/to/file.txt -> something--key.txt
@@ -300,7 +298,10 @@ class GlobusRemote(SpecialRemote):
 
     # TODO: decorate it to return multiple files in multiple locations
     def _do_retrieve(self, location, filename):
-        print("I AM IN RETRIEVE")
+        # sample input:
+        print("TRANSFER RETRIEVE URL-s4250--s3://openfmri/ds116/sub001/BOLD/task001_run001/QA/fd.txt "
+              ".git/annex/tmp/URL-s4250--s3&c%%openfmri%ds116%sub001%BOLD%task001_run001%QA%fd.txt")
+        # it tries to get http, https, until it finds s3 url to resolve
         # build path with file to be retrieved
         # ADD: check that the key and file are correct,  can use REGEX as the filename may be a path/filename
         path = os.path.join(location, filename)
@@ -310,15 +311,24 @@ class GlobusRemote(SpecialRemote):
         except OSError as e:
             raise RemoteError(e)
 
-    def _do_checkpresent(self, key, location):
-        """Checks presence of file by its key in the given Globus location"""
-        if lookup_url[key]:
-            print('file present in Globus')
-            return True
-        return False
-        # if not os.path.exists(self.directory):
-        #    raise RemoteError("this remote is not currently available")
-        # return os.path.isfile(location)
+    def claimurl(self, url):
+        prefix = str(url).split(':')[0]
+        if prefix == 'globus':
+            return url
+        else:
+            self.annex.error("Unsupported url")
+
+    def checkurl(self, url):
+        # checks the url actually has content
+        path = str(url).split(str(self.uuid))[1]
+        parent_path = '/~' + os.path.dirname(path)
+        child = path.split('/')[-1]
+        for file in self.transfer_client.operation_ls(self.uuid, path=parent_path, num_results=None):
+            if file['name'] == child:
+                self.annex.info(file)
+                # self.presence_cache(self.get_key(dyn_path)) = url
+                return True
+
 
     # Export methods
     # def transferexport_store(self, key, local_file, remote_file):

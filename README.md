@@ -37,3 +37,12 @@ With the above in place, authorized users interact with the endpoint as follows 
 
     Access data on existing collections using the GridFTP and/or HTTPS protocols. They may use a web browser (for HTTPS links), the Globus Web app, the Globus command-line interface (CLI), the Globus software development kit (SDK), or the Globus REST APIs.
 
+
+
+
+
+
+COMMANDS:
+
+Initialize remote:
+$ git annex initremote globus -d  type=external externaltype=globus encryption=none endpoint=FRDR_Prod_2 fileprefix=/5/published/publication_170/submitted_data/
