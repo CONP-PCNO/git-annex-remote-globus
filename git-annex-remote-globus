@@ -263,12 +263,13 @@ class GlobusRemote(SpecialRemote):
         try:
             self.annex.info("Downloading {0} into {1}".format(globus_url, filename))
             urllib.request.urlretrieve(download_url, '/home/giuly/test/test_FRDR_dataset/{0}.mat'.format(filename))
-            self.annex.progress()
-            self.annex.info("Successfully downloaded {0} into {1}".format(globus_url, filename))
-            return True
         except Exception as e:
             self.annex.error("problem occurred while downloading: {0}".format(e))
             return False
+        self.annex.progress(1)
+        self.annex.info("Successfully downloaded {0} into {1}".format(globus_url, filename))
+        return True
+
 
     def checkpresent(self, key):
         """Manages checking for presence of file by its key in the given Globus location"""
@@ -344,8 +345,8 @@ class GlobusRemote(SpecialRemote):
         parent_path = '/~' + os.path.dirname(path)
         child = path.split('/')[-1]
         for file in self.transfer_client.operation_ls(self.uuid, path=parent_path, num_results=None):
+            # if it finds the file
             if file['name'] == child:
-
                 # set path present after being checked
                 key = str(self.get_key(dyn_path))
                 key_path = str(self._get_key_path(key))
@@ -355,10 +356,9 @@ class GlobusRemote(SpecialRemote):
                 d['size'] = file['size']
                 reply.append(d)
                 return reply
-            else:
-                self.annex.error("Url not valid")
-                # FIXME: maybe this is not needed
-                return 0
+        self.annex.error("Url not valid")
+        # FIXME: maybe this is not needed
+        return 0
 
 
     # Export methods
