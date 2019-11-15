@@ -26,7 +26,7 @@ import time
 import sys
 import webbrowser
 import logging
-
+import urllib.request
 from utils import enable_requests_logging, is_remote_session
 
 from globus_sdk import (NativeAppAuthClient, TransferClient,
@@ -248,9 +248,27 @@ class GlobusRemote(SpecialRemote):
 
     def transfer_retrieve(self, key, filename):
         """Manages retrieving files operation from Globus"""
-        # self.authenticate()
-        # look up key in lookup url to get the location
-        return self._do_retrieve(key, filename)
+        globus_urls = self.annex.geturls(key, prefix='globus://')
+        if len(globus_urls) != 1:
+            self.annex.error("Could not find the globus url for the specified key, number of urls found: {0}".format(len(globus_urls)))
+        else:
+            # filename is the file where to store the download
+            if self._get_file(globus_urls[0], filename):
+                return key
+
+    def _get_file(self, globus_url, filename):
+        git_dir = self.annex.getgitdir()
+        download_url = self.server + str(globus_url).split(str(self.uuid))[1]
+        # TODO: use ds_dir to build location
+        try:
+            self.annex.info("Downloading {0} into {1}".format(globus_url, filename))
+            urllib.request.urlretrieve(download_url, '/home/giuly/test/test_FRDR_dataset/{0}.mat'.format(filename))
+            self.annex.progress()
+            self.annex.info("Successfully downloaded {0} into {1}".format(globus_url, filename))
+            return True
+        except Exception as e:
+            self.annex.error("problem occurred while downloading: {0}".format(e))
+            return False
 
     def checkpresent(self, key):
         """Manages checking for presence of file by its key in the given Globus location"""
@@ -274,7 +292,7 @@ class GlobusRemote(SpecialRemote):
 
     def _calclocation(self, key):
         url = None
-        key_path = self._get_key_path(key)
+        # key_path = self._get_key_path(key)
         # get location with the key path
         # get url from git annex directory
         if key in self.presence_cache.values():
@@ -287,6 +305,7 @@ class GlobusRemote(SpecialRemote):
     def get_key(self, dyn_path):
         # path takes to a symlink which get decoded e.g. path/to/file.txt -> something--key.txt
         # presence of 'key' is checked in globus
+        # TODO: extract this one as ds_dir
         tmp = '/home/giuly/test/test_FRDR_dataset/'
         # if present, the key gets returned
         path = tmp + dyn_path
