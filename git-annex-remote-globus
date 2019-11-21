@@ -191,24 +191,6 @@ class GlobusRemote(SpecialRemote):
             else:
                 raise ex
 
-
-        # TODO: trigger for debugging
-        # revoke the access token that was just used to make requests against
-        # the Transfer API to demonstrate that the RefreshTokenAuthorizer will
-        # automatically get a new one
-
-        # auth_client.oauth2_revoke_token(authorizer.access_token)
-        # # Allow a little bit of time for the token revocation to settle
-        # time.sleep(1)
-        # # Verify that the access token is no longer valid
-        # token_status = auth_client.oauth2_validate_token(
-        #     transfer_tokens['access_token'])
-        # assert token_status['active'] is False, 'Token was expected to be invalid.'
-        # frdr_endpoint = None
-        # print('\nDoing a second operations with a new access token:')
-        # frdr_endpoint = transfer.endpoint_search(filter_fulltext='FRDR-Prod-2', num_results=None)
-        # assert frdr_endpoint is None
-
     def initremote(self):
         """Requests the remote to initialize itself. Idempotent call"""
 
@@ -259,10 +241,6 @@ class GlobusRemote(SpecialRemote):
             if self._get_file(globus_urls[0], filename):
                 return key
 
-    def get_object_location(self):
-        self.objtree_base_path = Path('.git')  # assign location
-        self.objtree_base_path / 'annex' / 'object'
-
     def _get_git_annex(self, key_file, key_path):
         repo = Repo('/home/giuly/test/test_FRDR_dataset')
         repo.git.checkout('git-annex')
@@ -294,8 +272,7 @@ class GlobusRemote(SpecialRemote):
         """Manages checking for presence of file by its key in the given Globus location"""
         # look through the tree. Check if a url is available in the git-annex branch
         # file name ends with .web
-        # example content: 1574347427.769324337s 1 :globus://8ca92f91-39fb-4176-bcb9-7fb1ed53114b/5/published/publication_170/submitted_data/2015_11_18_cortex/processed/2015_11_18_6_filtered0.1to10.mat
-        # url = self._calclocation(key)
+        # Here calc calclocation
         key_file = key + '.log.web'
         url = self._get_git_annex(key_file, Path("b47/11d/"))
         if not url:
@@ -303,9 +280,6 @@ class GlobusRemote(SpecialRemote):
         return True
 
     def remove(self, key):
-        print("File cannot be removed in dataset")
-        # location = self._calclocation(key)
-        # self._do_remove(key, location)
         pass
 
     def _get_key_path(self, key):
@@ -313,18 +287,6 @@ class GlobusRemote(SpecialRemote):
         # Double key to achieve the same layout as in the special remote
         key_path = Path(key_dir) / key / key
         return key_path
-
-    def _calclocation(self, key):
-        url = None
-        # key_path = self._get_key_path(key)
-        # get location with the key path
-        # get url from git annex directory
-        if key in self.presence_cache.values():
-            # get globus url
-            url = self.presence_cache[key]
-        else:
-            self.annex.error("A url must be registered for a given key")
-        return url
 
     def get_key(self, dyn_path):
         # path takes to a symlink which get decoded e.g. path/to/file.txt -> something--key.txt
@@ -341,16 +303,6 @@ class GlobusRemote(SpecialRemote):
         # check presence
         else:
             self.annex.error("Not a valid path to symlink")
-
-    # TODO: decorate it to return multiple files in multiple locations
-    def _do_retrieve(self, key, filename):
-        # sample input:
-        print("TRANSFER RETRIEVE URL-s4250--s3://openfmri/ds116/sub001/BOLD/task001_run001/QA/fd.txt "
-              ".git/annex/tmp/URL-s4250--s3&c%%openfmri%ds116%sub001%BOLD%task001_run001%QA%fd.txt")
-        # it tries to get http, https, until it finds s3 url to resolve
-        # build path with file to be retrieved
-        # ADD: check that the key and file are correct,  can use REGEX as the filename may be a path/filename
-        return key
 
     def claimurl(self, url):
         prefix = str(url).split(':')[0]
