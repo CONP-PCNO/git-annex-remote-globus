@@ -12,6 +12,7 @@ import wget
 from pathlib import (
     Path,
 )
+from git import Repo
 from lookup_url import lookup_url
 import globus_sdk
 import json
@@ -23,6 +24,7 @@ from annexremote import RemoteError, ProtocolError
 from subprocess import Popen, check_call
 import json
 import time
+import subprocess
 import sys
 import webbrowser
 import logging
@@ -58,6 +60,7 @@ class GlobusRemote(SpecialRemote):
         self.server = None
         self.uuid = None
         self.fileprefix = None
+        self.objtree_base_path = None
         # TODO: make this into a property
         self.transfer_client = None
 
@@ -256,13 +259,30 @@ class GlobusRemote(SpecialRemote):
             if self._get_file(globus_urls[0], filename):
                 return key
 
+    def get_object_location(self):
+        self.objtree_base_path = Path('.git')  # assign location
+        self.objtree_base_path / 'annex' / 'object'
+
+    def _get_git_annex(self, key_file, key_path):
+        repo = Repo('/home/giuly/test/test_FRDR_dataset')
+        repo.git.checkout('git-annex')
+        try:
+            path = key_path / key_file
+            if os.path.exists(path):
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.annex.error("the key path {0} does not exist: {1} was thrown".format(key_path, e))
+
     def _get_file(self, globus_url, filename):
         git_dir = self.annex.getgitdir()
+        filename = Path(filename)
         download_url = self.server + str(globus_url).split(str(self.uuid))[1]
         # TODO: use ds_dir to build location
         try:
             self.annex.info("Downloading {0} into {1}".format(globus_url, filename))
-            urllib.request.urlretrieve(download_url, '/home/giuly/test/test_FRDR_dataset/{0}.mat'.format(filename))
+            urllib.request.urlretrieve(download_url, filename)
         except Exception as e:
             self.annex.error("problem occurred while downloading: {0}".format(e))
             return False
@@ -270,11 +290,14 @@ class GlobusRemote(SpecialRemote):
         self.annex.info("Successfully downloaded {0} into {1}".format(globus_url, filename))
         return True
 
-
     def checkpresent(self, key):
         """Manages checking for presence of file by its key in the given Globus location"""
         # look through the tree. Check if a url is available in the git-annex branch
-        url = self._calclocation(key)
+        # file name ends with .web
+        # example content: 1574347427.769324337s 1 :globus://8ca92f91-39fb-4176-bcb9-7fb1ed53114b/5/published/publication_170/submitted_data/2015_11_18_cortex/processed/2015_11_18_6_filtered0.1to10.mat
+        # url = self._calclocation(key)
+        key_file = key + '.log.web'
+        url = self._get_git_annex(key_file, Path("b47/11d/"))
         if not url:
             return False
         return True
