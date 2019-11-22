@@ -241,12 +241,13 @@ class GlobusRemote(SpecialRemote):
         return key + '.log.web'
 
     def _ispresent(self, key_dir, key_file):
-        path = ('git-annex:%s/%s', key_dir, key_file)
+        # generates path to check for precence in git-annex branch
+        path = 'git-annex:{0}{1}'.format(key_dir, key_file)
         cmd = ['git', 'cat-file', '-p', path]
+        # check for presence based on output
         try:
             subprocess.check_output(
                 cmd,
-                # yield text
                 universal_newlines=True).strip()
             return True
         except Exception:
@@ -254,14 +255,12 @@ class GlobusRemote(SpecialRemote):
 
     def checkpresent(self, key):
         """Indicates whether a key has been verified to be present in a globus remote location"""
-        # Make globus generate the desired file name to check for key presence
+        # make globus generate the desired file name to check for key presence
         key_file = GlobusRemote._as_webfile(key)
-        # Obtained directories in git-annex branch
+        # obtain directories in git-annex branch
         key_dir = self.annex.dirhash_lower(key)
-        # Check if key was added to globus. A key corresponds to a file, hence we check if a file is stored in globus
+        # check if key was added to globus. A key corresponds to a file, hence we check if a file is stored in globus
         return self._ispresent(key_dir, key_file)
-
-
 
 # *********************************************************************************************************************
         
@@ -295,8 +294,6 @@ class GlobusRemote(SpecialRemote):
         self.annex.progress(1)
         self.annex.info("Successfully downloaded {0} into {1}".format(globus_url, filename))
         return True
-
-
 
     def _get_key_path(self, key):
         key_dir = self.annex.dirhash_lower(key)
