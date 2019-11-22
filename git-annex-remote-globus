@@ -194,6 +194,8 @@ class GlobusRemote(SpecialRemote):
             else:
                 raise ex
 
+# *********************************************************************************************************************
+
     def initremote(self):
         """Requests the remote to initialize itself. Idempotent call"""
 
@@ -232,9 +234,41 @@ class GlobusRemote(SpecialRemote):
         except Exception as e:
             self.annex.error("Failed to initialised the remote: ", e,
                              "Run 'git-annex-remote-globus setup' to authenticate")
+
+# *********************************************************************************************************************
+    @classmethod
+    def _as_webfile(cls, key):
+        return key + '.log.web'
+
+    def _ispresent(self, key_dir, key_file):
+        path = ('git-annex:%s/%s', key_dir, key_file)
+        cmd = ['git', 'cat-file', '-p', path]
+        try:
+            subprocess.check_output(
+                cmd,
+                # yield text
+                universal_newlines=True).strip()
+            return True
+        except Exception:
+            return False
+
+    def checkpresent(self, key):
+        """Indicates whether a key has been verified to be present in a globus remote location"""
+        # Make globus generate the desired file name to check for key presence
+        key_file = GlobusRemote._as_webfile(key)
+        # Obtained directories in git-annex branch
+        key_dir = self.annex.dirhash_lower(key)
+        # Check if key was added to globus. A key corresponds to a file, hence we check if a file is stored in globus
+        return self._ispresent(key_dir, key_file)
+
+
+
+# *********************************************************************************************************************
         
     def transfer_store(self, key, filename):
-        # TODO: decide what to do with this RIA
+        pass
+
+    def remove(self, key):
         pass
 
     def transfer_retrieve(self, key, filename):
@@ -246,18 +280,6 @@ class GlobusRemote(SpecialRemote):
             # filename is the file where to store the download
             if self._get_file(globus_urls[0], filename):
                 return key
-
-    def _get_git_annex(self, key_file, key_path):
-        repo = Repo('/home/giuly/test/test_FRDR_dataset')
-        repo.git.checkout('git-annex')
-        try:
-            path = key_path / key_file
-            if os.path.exists(path):
-                return True
-            else:
-                return False
-        except Exception as e:
-            self.annex.error("the key path {0} does not exist: {1} was thrown".format(key_path, e))
 
     def _get_file(self, globus_url, filename):
         git_dir = self.annex.getgitdir()
@@ -274,19 +296,7 @@ class GlobusRemote(SpecialRemote):
         self.annex.info("Successfully downloaded {0} into {1}".format(globus_url, filename))
         return True
 
-    def checkpresent(self, key):
-        """Manages checking for presence of file by its key in the given Globus location"""
-        # look through the tree. Check if a url is available in the git-annex branch
-        # file name ends with .web
-        # Here calc calclocation
-        key_file = key + '.log.web'
-        url = self._get_git_annex(key_file, Path("b47/11d/"))
-        if not url:
-            return False
-        return True
 
-    def remove(self, key):
-        pass
 
     def _get_key_path(self, key):
         key_dir = self.annex.dirhash_lower(key)
