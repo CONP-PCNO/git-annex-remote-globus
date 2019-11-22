@@ -49,7 +49,6 @@ class GlobusRemote(SpecialRemote):
 
     def __init__(self, annex):
         super(GlobusRemote, self).__init__(annex)
-        self.presence_cache = dict()
         self.server = None
         self.uuid = None
         self.fileprefix = None
@@ -263,6 +262,7 @@ class GlobusRemote(SpecialRemote):
 
     def transfer_retrieve(self, key, filename):
         """Requests transfer of a key. The filename if where to store the download"""
+
         globus_urls = self.annex.geturls(key, prefix='globus://')
         # there is multiple or missing url
         if len(globus_urls) != 1:
@@ -273,10 +273,10 @@ class GlobusRemote(SpecialRemote):
             if self._get_file(globus_urls[0], filename):
                 return key
 
+    # TODO: use ds_dir to build location
     def _get_file(self, globus_url, filename):
         """Data transfer at the given url into a temporary location, filename"""
         download_url = self.server + str(globus_url).split(str(self.uuid))[1]
-        # TODO: use ds_dir to build location
         try:
             self.annex.info("Downloading {0} into {1}".format(globus_url, filename))
             f = urllib.request.urlretrieve(download_url, filename)
