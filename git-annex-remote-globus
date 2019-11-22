@@ -262,23 +262,25 @@ class GlobusRemote(SpecialRemote):
         pass
 
     def transfer_retrieve(self, key, filename):
-        """Manages retrieving files operation from Globus"""
+        """Requests transfer of a key. The filename if where to store the download"""
         globus_urls = self.annex.geturls(key, prefix='globus://')
+        # there is multiple or missing url
         if len(globus_urls) != 1:
-            self.annex.error("Could not find the globus url for the specified key, number of urls found: {0}".format(len(globus_urls)))
+            self.annex.error("Could not find the globus url for the specified key"
+                             "number of urls found: {0}".format(len(globus_urls)))
         else:
-            # filename is the file where to store the download
+            # do transfer in the given filename location and return if success
             if self._get_file(globus_urls[0], filename):
                 return key
 
     def _get_file(self, globus_url, filename):
-        git_dir = self.annex.getgitdir()
-        filename = Path(filename)
+        """Data transfer at the given url into a temporary location, filename"""
         download_url = self.server + str(globus_url).split(str(self.uuid))[1]
         # TODO: use ds_dir to build location
         try:
             self.annex.info("Downloading {0} into {1}".format(globus_url, filename))
-            urllib.request.urlretrieve(download_url, filename)
+            f = urllib.request.urlretrieve(download_url, filename)
+            self.annex.info(f)
         except Exception as e:
             self.annex.error("problem occurred while downloading: {0}".format(e))
             return False
@@ -296,11 +298,14 @@ class GlobusRemote(SpecialRemote):
 
     def checkurl(self, url):
         """Check if the url's content can currently be downloaded (without downloading it)"""
+        # initialize response
         reply = []
         dict_reply = dict()
         # checks the url actually has content
         path = str(url).split(str(self.uuid))[1]
+        # construct a remote directory path
         dir_path = '/~' + os.path.dirname(path)
+        # and the file name to check for
         file_name = path.split('/')[-1]
         # access remote using ls operation to check if file exists
         for file in self.transfer_client.operation_ls(self.uuid, path=dir_path, num_results=None):
@@ -310,9 +315,6 @@ class GlobusRemote(SpecialRemote):
                 dict_reply['size'] = file['size']
                 reply.append(dict_reply)
                 return reply
-        self.annex.error("Url not valid")
-        # FIXME: maybe this is not needed
-        return 0
 
 
     # Export methods
