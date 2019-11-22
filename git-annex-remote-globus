@@ -7,29 +7,21 @@
 #
 # TODO: Add Copyright
 
-import sys, os, errno
-import wget
+import os
 from pathlib import (
     Path,
 )
-from git import Repo
-from lookup_url import lookup_url
+
 import globus_sdk
-import json
-from globusclient import GlobusClient
 from annexremote import Master
-from annexremote import ExportRemote
 from annexremote import SpecialRemote
-from annexremote import RemoteError, ProtocolError
-from subprocess import Popen, check_call
+from annexremote import RemoteError
 import json
-import time
 import subprocess
 import sys
 import webbrowser
-import logging
 import urllib.request
-from utils import enable_requests_logging, is_remote_session
+from utils import is_remote_session
 
 from globus_sdk import (NativeAppAuthClient, TransferClient,
                         RefreshTokenAuthorizer)
@@ -61,7 +53,6 @@ class GlobusRemote(SpecialRemote):
         self.server = None
         self.uuid = None
         self.fileprefix = None
-        self.objtree_base_path = None
         # TODO: make this into a property
         self.transfer_client = None
 
@@ -215,7 +206,7 @@ class GlobusRemote(SpecialRemote):
                              "Run 'git-annex-remote-globus setup' to authenticate")
 
     def prepare(self):
-        """Connection takes place between Globus and git-annex"""
+        """Connection takes place between remote and git-annex"""
 
         try:
             self.uuid = self.annex.getconfig('uuid')
@@ -254,7 +245,7 @@ class GlobusRemote(SpecialRemote):
             return False
 
     def checkpresent(self, key):
-        """Indicates whether a key has been verified to be present in a globus remote location"""
+        """Indicates whether a key has been verified to be present in a remote location"""
         # make globus generate the desired file name to check for key presence
         key_file = GlobusRemote._as_webfile(key)
         # obtain directories in git-annex branch
@@ -295,54 +286,29 @@ class GlobusRemote(SpecialRemote):
         self.annex.info("Successfully downloaded {0} into {1}".format(globus_url, filename))
         return True
 
-    def _get_key_path(self, key):
-        key_dir = self.annex.dirhash_lower(key)
-        # Double key to achieve the same layout as in the special remote
-        key_path = Path(key_dir) / key / key
-        return key_path
-
-    def get_key(self, dyn_path):
-        # path takes to a symlink which get decoded e.g. path/to/file.txt -> something--key.txt
-        # presence of 'key' is checked in globus
-        # TODO: extract this one as ds_dir
-        tmp = '/home/giuly/test/test_FRDR_dataset/'
-        # if present, the key gets returned
-        path = tmp + dyn_path
-
-        if os.path.islink(path):
-            symlink = os.readlink(path)
-            key = symlink.split("/")[-1]
-            return key  # symlink.split("/")[-1]
-        # check presence
-        else:
-            self.annex.error("Not a valid path to symlink")
-
     def claimurl(self, url):
-        prefix = str(url).split(':')[0]
-        if prefix == 'globus':
+        """Check whether it is possible to download a url given the specified protocol prefix"""
+        prefix = str(url).split(str(self.uuid))[0]
+        if prefix == 'globus://':
             return url
         else:
             self.annex.error("Unsupported url")
 
     def checkurl(self, url):
+        """Check if the url's content can currently be downloaded (without downloading it)"""
         reply = []
-        d = dict()
+        dict_reply = dict()
         # checks the url actually has content
-        dyn_path = str(url).split(str(self.fileprefix))[1]
         path = str(url).split(str(self.uuid))[1]
-        parent_path = '/~' + os.path.dirname(path)
-        child = path.split('/')[-1]
-        for file in self.transfer_client.operation_ls(self.uuid, path=parent_path, num_results=None):
+        dir_path = '/~' + os.path.dirname(path)
+        file_name = path.split('/')[-1]
+        # access remote using ls operation to check if file exists
+        for file in self.transfer_client.operation_ls(self.uuid, path=dir_path, num_results=None):
             # if it finds the file
-            if file['name'] == child:
-                # set path present after being checked
-                key = str(self.get_key(dyn_path))
-                key_path = str(self._get_key_path(key))
-                self.annex.info(file['size'])
-                self.presence_cache[key] = url
-                # return file size
-                d['size'] = file['size']
-                reply.append(d)
+            if file['name'] == file_name:
+                # return file size in reply
+                dict_reply['size'] = file['size']
+                reply.append(dict_reply)
                 return reply
         self.annex.error("Url not valid")
         # FIXME: maybe this is not needed
@@ -448,26 +414,9 @@ def main():
                 remote = GlobusRemote(master)
                 remote.setup()
             return 0
-        if sys.argv[1] == 'get':
-            with open(os.devnull, 'w') as devnull:
-                master = Master(devnull)
-                remote = GlobusRemote(master)
-                path = sys.argv[2]
-                try:
-                    key = remote.get_key(path)
-                    # remote.checkpresent(key)
-                    filename = path.split('/')[-1]
-                    print(filename)
-                    remote.transfer_retrieve(key, filename)
-                except Exception as e:
-                    print(e)
-            return 0
     else:
-        # print(sys.argv)
         output = sys.stdout
         sys.stdout = sys.stderr
-        # opts, args = getopt.getopt(sys.argv[0:], "d", ["dataset"])
-        # print(opts, args)
         master = Master(output)
         remote = GlobusRemote(master)
         master.LinkRemote(remote)
