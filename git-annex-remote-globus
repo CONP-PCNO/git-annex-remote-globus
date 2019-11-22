@@ -31,6 +31,7 @@ versions = None
 # FIXME: REMOVE PRINTS -debug messages !!!special remote see
 # FIXME: put all local support modules in a different package
 
+
 class GlobusRemote(SpecialRemote):
 
     """This is the class of Globus remotes."""
@@ -52,7 +53,6 @@ class GlobusRemote(SpecialRemote):
         self.server = None
         self.uuid = None
         self.fileprefix = None
-        # TODO: make this into a property
         self.transfer_client = None
 
     @staticmethod
@@ -145,7 +145,7 @@ class GlobusRemote(SpecialRemote):
             expires_at=transfer_tokens['expires_at_seconds'],
             on_refresh=self.update_tokens_file_on_refresh)
 
-        # TODO: bind it to object or maybe make it a PROPERTY
+        # TODO: maybe make it a PROPERTY
         self.transfer_client = TransferClient(authorizer=authorizer)
 
     def get_endpoint_id(self, dir_name):
