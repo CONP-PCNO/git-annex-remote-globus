@@ -99,6 +99,10 @@ class GlobusRemote(SpecialRemote):
         # return a set of tokens, organized by resource server name
         return token_response.by_resource_server
 
+    @staticmethod
+    def is_remote_session():
+        return os.environ.get('SSH_TTY', os.environ.get('SSH_CONNECTION'))
+
     def setup(self):
         """
         Setup function to be run before initremote to handle things like authentication interactively
