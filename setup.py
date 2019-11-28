@@ -6,6 +6,7 @@ setup(
     author='Giulia Ippoliti',
     author_email='giuly.ppoliti@gmail.com',
     scripts=['git-annex-remote-globus'],
+    url='https://github.com/CONP-PCNO/git-annex-remote-globus',
     description='git annex special remote for Globus',
     long_description=open('README.md').read()
 )
