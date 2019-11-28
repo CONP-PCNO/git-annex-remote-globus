@@ -45,4 +45,5 @@ With the above in place, authorized users interact with the endpoint as follows 
 COMMANDS:
 
 Initialize remote:
+$ git-annex-remote-globus setup
 $ git annex initremote globus -d  type=external externaltype=globus encryption=none endpoint=FRDR_Prod_2 fileprefix=/5/published/publication_170/submitted_data/
