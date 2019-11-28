@@ -21,7 +21,7 @@ import subprocess
 import sys
 import webbrowser
 import urllib.request
-from utils import is_remote_session
+from remote_session import is_remote_session
 
 from globus_sdk import (NativeAppAuthClient, TransferClient,
                         RefreshTokenAuthorizer)
