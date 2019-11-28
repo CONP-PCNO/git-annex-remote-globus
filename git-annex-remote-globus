@@ -8,10 +8,6 @@
 # TODO: Add Copyright
 
 import os
-from pathlib import (
-    Path,
-)
-
 import globus_sdk
 from annexremote import Master
 from annexremote import SpecialRemote
@@ -22,9 +18,9 @@ import sys
 import webbrowser
 import urllib.request
 from remote_session import is_remote_session
-
+import shutil
 from globus_sdk import (NativeAppAuthClient, TransferClient,
-                        RefreshTokenAuthorizer)
+                             RefreshTokenAuthorizer)
 from globus_sdk.exc import GlobusAPIError
 
 versions = None
@@ -231,30 +227,51 @@ class GlobusRemote(SpecialRemote):
 
 # *********************************************************************************************************************
     @classmethod
-    def _as_webfile(cls, key):
-        return key + '.log.web'
+    def _as_size(cls, key):
+        """get the file size from a given key"""
+        return str(key).split('-')[1].split('s')[1]
 
-    def _ispresent(self, key_dir, key_file):
+    def _get_globus_location(self, url):
+        """Constructs remote location with the globus url"""
+        path = str(url).split(str(self.uuid))[1]
+        # construct a remote directory path
+        return '/~' + path
+
+    def _getfilesize(self, location):
+        """gets the file size of the specified remote location"""
+        # get remote file location directory
+        dir_path = os.path.dirname(location)
+        # and the file name to check for
+        file_name = location.split('/')[-1]
+        # access remote using ls operation to check if file exists
+        for file in self.transfer_client.operation_ls(self.uuid, path=dir_path, num_results=None):
+            # if it finds the file
+            if file['name'] == file_name:
+                # return file size in reply
+                return file['size']
+
+    def _checksize(self, key, url):
+        """Checks file size has not changed for a given file"""
         # generates path to check for precence in git-annex branch
-        path = 'git-annex:{0}{1}'.format(key_dir, key_file)
-        cmd = ['git', 'cat-file', '-p', path]
-        # check for presence based on output
-        try:
-            subprocess.check_output(
-                cmd,
-                universal_newlines=True).strip()
-            return True
-        except Exception:
-            return False
+        # get remote location
+        path = self._get_globus_location(url)
+        # construct a remote directory path
+        globus_size = self._getfilesize(path)
+        self.annex.info(globus_size)
+        key_size = GlobusRemote._as_size(key)
+        return int(globus_size) == int(key_size)
 
     def checkpresent(self, key):
         """Indicates whether a key has been verified to be present in a remote location"""
         # make globus generate the desired file name to check for key presence
-        key_file = GlobusRemote._as_webfile(key)
-        # obtain directories in git-annex branch
-        key_dir = self.annex.dirhash_lower(key)
-        # check if key was added to globus. A key corresponds to a file, hence we check if a file is stored in globus
-        return self._ispresent(key_dir, key_file)
+        globus_urls = self.annex.geturls(key, prefix='globus://')
+        # there is multiple or missing url
+        if len(globus_urls) != 1:
+            self.annex.info("Could not find the globus url for the specified key"
+                             "number of urls found: {0}".format(len(globus_urls)))
+            return False
+        else:
+            return self._checksize(key, globus_urls[0])
 
 # *********************************************************************************************************************
         
@@ -266,7 +283,6 @@ class GlobusRemote(SpecialRemote):
 
     def transfer_retrieve(self, key, filename):
         """Requests transfer of a key. The filename if where to store the download"""
-
         globus_urls = self.annex.geturls(key, prefix='globus://')
         # there is multiple or missing url
         if len(globus_urls) != 1:
@@ -283,11 +299,12 @@ class GlobusRemote(SpecialRemote):
         download_url = self.server + str(globus_url).split(str(self.uuid))[1]
         try:
             self.annex.info("Downloading {0} into {1}".format(globus_url, filename))
-            f = urllib.request.urlretrieve(download_url, filename)
-            self.annex.info(f)
+            with urllib.request.urlopen(download_url) as response, open(os.path.normpath(filename), 'wb') as out_file:
+                shutil.copyfileobj(response, out_file)
         except Exception as e:
             self.annex.error("problem occurred while downloading: {0}".format(e))
             return False
+        # os.path.getsize(fpath)
         self.annex.progress(1)
         self.annex.info("Successfully downloaded {0} into {1}".format(globus_url, filename))
         return True
@@ -305,20 +322,13 @@ class GlobusRemote(SpecialRemote):
         # initialize response
         reply = []
         dict_reply = dict()
-        # checks the url actually has content
-        path = str(url).split(str(self.uuid))[1]
-        # construct a remote directory path
-        dir_path = '/~' + os.path.dirname(path)
-        # and the file name to check for
-        file_name = path.split('/')[-1]
-        # access remote using ls operation to check if file exists
-        for file in self.transfer_client.operation_ls(self.uuid, path=dir_path, num_results=None):
-            # if it finds the file
-            if file['name'] == file_name:
-                # return file size in reply
-                dict_reply['size'] = file['size']
-                reply.append(dict_reply)
-                return reply
+        # get remote location
+        path = self._get_globus_location(url)
+        # get file size in remote location
+        dict_reply['size'] = self._getfilesize(path)
+        # return it as a response
+        reply.append(dict_reply)
+        return reply
 
 
     # Export methods
