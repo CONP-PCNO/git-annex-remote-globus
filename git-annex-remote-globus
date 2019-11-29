@@ -17,16 +17,12 @@ import subprocess
 import sys
 import webbrowser
 import urllib.request
-from remote_session import is_remote_session
 import shutil
 from globus_sdk import (NativeAppAuthClient, TransferClient,
                         RefreshTokenAuthorizer)
 from globus_sdk.exc import GlobusAPIError
 from path import Path
 versions = None
-
-# FIXME: add debug calls
-
 
 class GlobusRemote(SpecialRemote):
 
@@ -83,7 +79,7 @@ class GlobusRemote(SpecialRemote):
 
         url = client.oauth2_get_authorize_url()
 
-        if not is_remote_session():
+        if not os.environ.get('SSH_TTY', os.environ.get('SSH_CONNECTION')):
             webbrowser.open(url, new=1)
 
         auth_code = input().strip()
