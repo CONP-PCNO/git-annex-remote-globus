@@ -190,6 +190,7 @@ class GlobusRemote(SpecialRemote):
 
             if not self.uuid and endpoint_name:
                 self.uuid = self.get_endpoint_id(endpoint_name)
+            self.annex.info(self.uuid)
         except Exception as e:
             self.annex.error("Failed to initialised the remote: ", e,
                              "Run 'git-annex-remote-globus setup' to authenticate")
