@@ -4,10 +4,17 @@ git-annex-remote-globus adds to git-annex the ability to retrieve files which ar
 
 * Note! code is not yest distributed therefore Usage information are going to change soon
 
-## Usage
+
+## Requirements
+
+* Datalad
+* Git annex
+
+
+## Setup
 
 1. git clone this repository: ``` git clone https://github.com/CONP-PCNO/git-annex-remote-globus.git```
-2. In a different folder, clone the following dataset: ```git clone https://github.com/conpdatasets/FRDR-multimodal.git```and ```cd FRDR-multimodal```
+2. In a different folder, install the following dataset: ```datalad install https://github.com/conpdatasets/FRDR-multimodal.git```and ```cd FRDR-multimodal```
     from now on we are going to work from the dataset repo location where you cd'ed
 3. Add the path of your git-annex-remote-globus location to your current PATH
 4. Initialize a virtual environment and install requirements.txt. You may need to add the git-globus-annex path manually
@@ -18,39 +25,34 @@ git-annex-remote-globus adds to git-annex the ability to retrieve files which ar
    * Adds a git-annex remote called `globus`
    * Encrypts can be set to none for now
    * The option -d will enable a verbose output
-   * The endpoint name corresponds to the name of the dataset in Globus so globus can find it
-   * As the prefixfile the location storing your files in Globus
+   * The endpoint name corresponds to the name of the dataset in globus so globus can find it
+   * The fileprefix corresponds to the location storing your files in globus
 
 ```
-git annex initremote globus -d type=external externaltype=globus encryption=none endpoint=FRDR_Prod_2 fileprefix=/5/published/publication_170/submitted_data/
+git annex initremote globus type=external externaltype=globus encryption=none endpoint=FRDR_Prod_2 fileprefix=/5/published/publication_170/submitted_data/
 ```
 To debug `git-annex initremote --debug`.
-IMPORTANT: to reinitialize the remote you can run ```git annex enableremote globus```
 
-Now globus is ready to use !
+Now globus is ready to use ! See the Usage section below
+
 
 ### Options
+
 Options specific to git-annex-remote-googledrive
-* `prefix` - The path to the folder that will be used for the remote. If it doesn't exist, it will be created.
-* `root_id` - Instead of the path, you can specify the ID of a folder. The folder must already exist. This will make it independent from the path and it will always be found by git-annex, no matter where you move it. Can also be used to access shared folders which you haven't added to "My Drive".
-* `token` - Path to the file in which the credentials were stored by `git-annex-remote-googledrive setup`. Default: token.json
-* `keep_token` - Set to `yes` if you would like to keep the token file. Otherwise it's removed during initremote. Default: no
+* `prefix` - The path to the folder that will be used for the remote
+* `endpoint` - Globus endpoint name where the dataset lives
 
 General git-annex options
-* `encryption` - One of "none", "hybrid", "shared", or "pubkey". See [encryption](https://git-annex.branchable.com/encryption/).
-* `keyid` - Specifies the gpg key to use for encryption.
-* `mac` - The MAC algorithm. See [encryption](https://git-annex.branchable.com/encryption/).
-* `exporttree` - Set to `yes` to make this special remote usable by git-annex-export. It will not be usable as a general-purpose special remote.
-* `chunk` - Enables [chunking](https://git-annex.branchable.com/chunking) when storing large files.
+* `encryption` - One of "none", "hybrid", "shared", or "pubkey". See [encryption](https://git-annex.branchable.com/encryption/). (Must be set to `none` for now)
+* `mac` - The MAC algorithm. See [encryption](https://git-annex.branchable.com/encryption/). (Not supported for now)
+* `exporttree` - Set to `yes` to make this special remote usable by git-annex-export. It will not be usable as a general-purpose special remote. (Not supported for now)
+* `chunk` - Enables [chunking](https://git-annex.branchable.com/chunking) when storing large files. (Optional)
+
 
 ## Using an existing remote (note on repository layout)
 
-If you're switching from git-annex-remote-rclone or git-annex-remote-gdrive and already using the `nodir` structure, 
-it's as simple as typing `git annex enableremote <remote_name> externaltype=googledrive`. If you were using a different structure, you will be notified to run `git-annex-remote-googledrive migrate <prefix>` in order to migrate your remote to a `nodir` structure.
+If the globus remote was previously initialized, it can be restarted by running ```git annex enableremote globus```. See additional information [here](https://git-annex.branchable.com/git-annex-enableremote/).
 
-If you have a huge remote and the migration takes very long, you can temporarily use the [bash based git-annex-remote-gdrive](https://github.com/Lykos153/git-annex-remote-gdrive) which can access the files during migration. I might add this functionality to this application as well ([#25](https://github.com/Lykos153/git-annex-remote-googledrive/issues/25)). 
-
-I decided not to support other layouts anymore as there is really no reason to have subfolders. Google Drive requires us to traverse the whole path on each file operation, which results in a noticeable performance loss (especially during upload of chunked files). On the other hand, it's perfectly fine to have thousands of files in one Google Drive folder as it doesn't even use a folder structure internally.
 
 ## Choosing a Chunk Size
 
@@ -59,14 +61,89 @@ your cloud storage provider for uploads and downloads, you won't need to worry a
 Smaller chunk sizes: leak less information about the size of file size of files in your repository, require less ram,
 and require less data to be re-transmitted when network connectivity is interrupted. Larger chunks require less round
 trips to and from your cloud provider and may be faster. Additional discussion about chunk size can be found
-[here](https://git-annex.branchable.com/chunking/) and [here](https://github.com/DanielDent/git-annex-remote-rclone/issues/1)
+[here](https://git-annex.branchable.com/chunking/)
 
-## Google Drive API lockdown
-Google has started to lockdown their Google Drive API in order to [enhance security controls](https://cloud.google.com/blog/products/identity-security/enhancing-security-controls-for-google-drive-third-party-apps) for the user. Developers are urged to "move to a per-file user consent model, allowing users to more precisely determine what files an app is allowed to access". Unfortunately they do not provide a way for a user to allow access to a specific folder, so git-annex-remote-googledrive still needs access to the entire Drive in order to function properly. This makes it necessary to get it verified by Google. Until the application is approved (IF it is approved), the OAuth consent screen will show a warning ([#31](https://github.com/Lykos153/git-annex-remote-googledrive/issues/31)) which the user needs to accept in order to proceed.
 
-It is not yet clear what will happen in case the application is not approved. The warning screen might be all. But it's also possible that git-annex-remote-googledrive is banned from accessing Google Drive in the beginning of 2020. If you want to prepare for this, it might be a good idea to look for a different cloud service. However, it seems that [rclone](https://rclone.org) got approved, so you'll be able to switch to [git-annex-remote-rclone](https://github.com/DanielDent/git-annex-remote-rclone) in case git-annex-remote-googledrive is banned. To do this, follow the steps described in its README, then type `git annex enableremote <remote_name> externaltype=rclone rclone_layout=nodir`. This will not work for export-remotes, however, as git-annex-remote-rclone doesn't support them.
+## Usage
 
-If you use git-annex-remote-googledrive to sync with a **GSuite account**, you're on the safe side. The GSuite admin can choose which applications have access to its drive, regardless of whether it got approved by Google or not.
+In order to understand how globus remote works, we can work with one file as an example. The file is currently not available to use as only a symlink generated by annex is pointing 
+at it. Run the following to find the file symlink, which includes the file hash
+
+```
+cd FRDR-multimodal
+```
+```
+ll 2015_11_18_cortex/mask/mask.mat
+```
+
+The last command will allow you to visualize the symlink which contains the [MD6 hash](https://en.wikipedia.org/wiki/MD5) of the file content.
+At this point, globus does not know anything about this file and its symlink, as you can see running the following command
+
+```
+git annex whereis 2015_11_18_cortex/mask/mask.mat
+```
+
+Globus is not listed indeed. We now need to tell globus of the existence of the file based on its hash, which we call key.
+When initialized, globus was given a location ID by annex which distributes one to every remote it communicates with.
+We can find Globus location ID by running the following command from the dataset root location:
+
+```
+cat .git/config
+```
+
+This file shows the remote "globus" which we just initialized, and the globus remote location ID given by annex. 
+Therefore we need to make this location know about the file we want to retrieve.
+
+To do that, run:
+
+```
+git annex setpresentkey <file_hash> <annex-uuid> 1
+```
+
+For example, for the file we are working with 2015_11_18_cortex/mask/mask.mat we would run:
+
+```
+git annex setpresentkey MD5E-s572--1e5e0b0c5896d16ac14170c8f546d4e1.mat 056ae102-61ce-4417-9180-b45eecc45082 1
+```
+
+The 1 at the end tells globus about the existence of this file with its given key. A 0 would remove knowledge of the file
+
+Now, to make sure globus knows about this file, we can run the command below.
+
+``` 
+git annex whereis 2015_11_18_cortex/mask/mask.mat
+```
+
+At this point we can go ahead and register a url to be associated with the given file key. In this way, we will connect the points and tell annex where in globus
+the file is located, so it can reach it. Therefore we will add a globus url which will contain the endpoint name and fileprefix:
+
+```
+git annex registerurl MD5E-s572--1e5e0b0c5896d16ac14170c8f546d4e1.mat globus://frdr_prod_2/5/published/publication_170/submitted_data/2015_11_18_cortex/mask/mask.mat
+```
+
+At this point we can finally obtain the file running the command below
+```
+git annex get 2015_11_18_cortex/mask/mask.mat
+```
+
+This is the point where the file becomes available on your machine
+
+You can run whereis again to check that
+
+``` 
+git annex whereis 2015_11_18_cortex/mask/mask.mat
+```
+
+
+Moreover you can always run the following command if you want to mack sure the file has not been modified in globus compared to your previously downloaded version
+by using the annex-uuid again
+
+```
+git annex checkpresentkey MD5E-s572--1e5e0b0c5896d16ac14170c8f546d4e1.mat 056ae102-61ce-4417-9180-b45eecc45082
+```
+
+It will return Success if the file in Globus has not change
+
 
 ## Issues, Contributing
 
@@ -75,46 +152,3 @@ Please submit a pull request or create a new issue for problems or potential imp
 
 ## License
 
-#### Globus Connect Personal
-
-This option will allow you to share and transfer files to and from your laptop or desktop computer — even if it's behind a firewall. Supported operating systems include: macOS, Windows and Linux.
-Globus Connect Server
-This option is primarily intended for resource providers who wish to offer reliable, secure, high-performance research data management capabilities to their users and their collaborators, directly from their own storage. Globus Connect Server runs on a number of Linux distributions
-
-
-
-#### Globus Connect Server
-
-This option is primarily intended for resource providers who wish to offer reliable, secure, high-performance research data management capabilities to their users and their collaborators, directly from their own storage. Globus Connect Server runs on a number of Linux distributions
-
-
-Installation summary of Globus Connect Server (this happens only once)
-
-In this section, we summarize the steps for creating an endpoint and making it accessible to users with Globus Connect Server version 5.
-
-    The server administrator installs the Globus Connect Server version 5 software and uses it to create the endpoint. The endpoint includes the configuration for the server and its network use.
-
-    The administrator registers the endpoint with Globus so that Globus can be used to secure access to the endpoint.
-
-    The administrator creates one or more storage gateways (see terminology above) to define access policies for the endpoint’s storage.
-
-    The administrator may also create mapped collections that allow data access by users who have local accounts.
-
-
-
-With the above in place, authorized users interact with the endpoint as follows with git annex.
-
-    Discover storage gateways and create new guest collections as allowed by storage gateway policies.
-
-    Access data on existing collections using the GridFTP and/or HTTPS protocols. They may use a web browser (for HTTPS links), the Globus Web app, the Globus command-line interface (CLI), the Globus software development kit (SDK), or the Globus REST APIs.
-
-
-
-
-
-
-COMMANDS:
-
-Initialize remote:
-$ git-annex-remote-globus setup
-$ git annex initremote globus -d  type=external externaltype=globus encryption=none endpoint=FRDR_Prod_2 fileprefix=/5/published/publication_170/submitted_data/
