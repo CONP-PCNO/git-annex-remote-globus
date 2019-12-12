@@ -36,6 +36,7 @@ class GlobusRemote(SpecialRemote):
         self.server = None
         self.uuid = None
         self.fileprefix = None
+        self.endpoint = None
         self.transfer_client = None
         self._token_path = None
         self.settings = {
@@ -191,13 +192,13 @@ class GlobusRemote(SpecialRemote):
             # query uuid, fileprefix and directory name from git annex
             self.uuid = self.annex.getconfig('uuid')
             self.fileprefix = self.annex.getconfig('fileprefix')
-            endpoint_name = self.annex.getconfig('endpoint')
+            self.endpoint = self.annex.getconfig('endpoint')
 
-            if not self.uuid and not endpoint_name:
+            if not self.uuid and not self.endpoint:
                 raise RemoteError("Either directory name or uuid must be given.")
 
-            if not self.uuid and endpoint_name:
-                self.uuid = self.get_endpoint_id(endpoint_name)
+            if not self.uuid and self.endpoint:
+                self.uuid = self.get_endpoint_id(self.endpoint)
 
         except Exception as e:
             self.annex.error("Failed to initialised the remote: ", e,
@@ -209,13 +210,13 @@ class GlobusRemote(SpecialRemote):
         try:
             self.uuid = self.annex.getconfig('uuid')
             self.fileprefix = self.annex.getconfig('fileprefix')
-            endpoint_name = self.annex.getconfig('endpoint')
+            self.endpoint = self.annex.getconfig('endpoint')
 
-            if not self.uuid and not endpoint_name:
+            if not self.uuid and not self.endpoint:
                 raise RemoteError("Either directory name or uuid must be given.")
 
-            if not self.uuid and endpoint_name:
-                self.uuid = self.get_endpoint_id(endpoint_name)
+            if not self.uuid and self.endpoint:
+                self.uuid = self.get_endpoint_id(self.endpoint)
 
             if not self.server:
                 self.set_endpoint_server(self.uuid)
@@ -232,7 +233,7 @@ class GlobusRemote(SpecialRemote):
 
     def _get_remote_location(self, url):
         """Constructs remote location with the globus url"""
-        path = str(url).split(str(self.uuid))[1]
+        path = str(url).split(str(self.endpoint).lower())[1]
         # construct a remote directory path
         return '/~' + path
 
@@ -295,7 +296,7 @@ class GlobusRemote(SpecialRemote):
     # TODO: use ds_dir to build location
     def _do_retrive(self, globus_url, filename):
         """Data transfer at the given url into a temporary location, filename"""
-        download_url = self.server + str(globus_url).split(str(self.uuid))[1]
+        download_url = self.server + str(globus_url).split(str(self.endpoint).lower())[1]
         try:
             self.annex.info("Downloading {0} into {1}".format(globus_url, filename))
             with urllib.request.urlopen(download_url) as response, open(os.path.normpath(filename), 'wb') as out_file:
@@ -308,13 +309,24 @@ class GlobusRemote(SpecialRemote):
         self.annex.info("Successfully downloaded {0} into {1}".format(globus_url, filename))
         return True
 
+    def _is_valid(self, url):
+        """Checks that the endpoint name is given in the url"""
+        split_by_endpoint = str(url).split(str(self.endpoint).lower())
+        if len(split_by_endpoint) == 1:
+            # if the endpoint splitting value is not contained
+            self.annex.error("Unsupported url")
+            return False
+        return True
+
     def claimurl(self, url):
         """Check whether it is possible to download a url given the specified protocol prefix"""
-        prefix = str(url).split(str(self.uuid))[0]
-        if prefix == 'globus://':
-            return url
-        else:
-            self.annex.error("Unsupported url")
+        if self._is_valid(url):
+            prefix = str(url).split(str(self.endpoint).lower())[0]
+            if prefix == 'globus://':
+                # accept url
+                return url
+            else:
+                self.annex.error("Unsupported prefix")
 
     def checkurl(self, url):
         """Check if the url's content can currently be downloaded (without downloading it)"""
