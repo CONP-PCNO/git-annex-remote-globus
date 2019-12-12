@@ -147,7 +147,7 @@ It will return Success if the file in Globus has not change
 
 ## Issues, Contributing
 
-If you run into any problems, please check for issues on [GitHub](https://github.com/Lykos153/git-annex-remote-gdrive/issues).
+If you run into any problems, please check for issues on [GitHub](https://github.com/CONP-PCNO/git-annex-remote-globus/issues).
 Please submit a pull request or create a new issue for problems or potential improvements.
 
 ## License
