@@ -24,16 +24,18 @@ class Retrieve:
     def get_remote_path(self):
         return self.remote_path
 
-    @property
-    def remote(self):
+    @staticmethod
+    def _is_initialized():
         # check if remote was previously initialized
         setup_command = ['git', 'remote', '-v']
         process = subprocess.Popen(setup_command, stdout=subprocess.PIPE)
         output, _ = process.communicate()
         # split output to check if one remote is globus
         output = str(output).split("'")[1].split("\\t\\n")
+        print(output)
         for remote in output:
             if remote == 'globus':
+                print(remote)
                 return True
         return False
 
@@ -42,6 +44,8 @@ class Retrieve:
             setup_e = self._set_up()
             if setup_e is not None:
                 print('An error occurred during setup' + str(setup_e))
+            else:
+                print('Setup successful')
         except Exception as ex:
             print('The following exceptions was raised during setup: ' + str(ex))
             sys.exit()
@@ -113,10 +117,12 @@ class Retrieve:
         return error
 
     def _init_remote(self):
-        if not self.remote:
-            encryption = 'encryption=%s' % self.encryption
-            endpoint = 'endpoint=%s' % self.dataset_name
-            fileprefix = 'fileprefix=%s' % self.remote_prefix
+        encryption = 'encryption=%s' % self.encryption
+        endpoint = 'endpoint=%s' % self.dataset_name
+        fileprefix = 'fileprefix=%s' % self.remote_prefix
+        if not self._is_initialized:
+            print('initremote')
+
             initremote_command = \
                 ['git', 'annex', 'initremote', 'globus',  'type=external', 'externaltype=globus',
                 encryption, endpoint, fileprefix]
@@ -124,7 +130,8 @@ class Retrieve:
             _, error = process.communicate()
             return error
         else:
-            enableremote_command = ['git', 'annex', 'enableremote', 'globus']
+            print('enableremote')
+            enableremote_command = ['git', 'annex', 'enableremote', 'globus', endpoint, fileprefix]
             process = subprocess.Popen(enableremote_command, stdout=subprocess.PIPE)
             _, error = process.communicate()
             return error
