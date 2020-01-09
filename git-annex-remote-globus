@@ -106,7 +106,7 @@ class GlobusRemote(SpecialRemote):
             # if we already have tokens, load and use them
             tokens = self.load_tokens_from_file(self.token_path)
         except Exception as e:
-            print('Exception while loading file: ', e)
+            self.annex.error('Exception while loading file: ', e)
 
         if not tokens:
             # if we need to get tokens, start the Native App authentication process
@@ -150,7 +150,6 @@ class GlobusRemote(SpecialRemote):
 
         endpoints_list = []
         for ep in self.transfer_client.endpoint_search(filter_fulltext=dir_name, num_results=None):
-            print(ep['id'])
             endpoints_list.append(ep['id'])
         count = len(endpoints_list)
 
@@ -158,7 +157,6 @@ class GlobusRemote(SpecialRemote):
             # there is a unique id associated with the endpoint name
             return endpoints_list[0]
         elif count > 1:
-            print('{0} has ID {1}')
             self.annex.error('The endpoint {0} is not unique: {1} were found'.format(dir_name, count))
             # crash
             sys.exit()
@@ -176,7 +174,7 @@ class GlobusRemote(SpecialRemote):
             obj = self.transfer_client.get_endpoint(endpoint_id)
             self.server = obj['https_server']
         except GlobusAPIError as ex:
-            print(ex)
+            self.annex.error(ex)
             if ex.http_status == 401:
                 sys.exit('Refresh token has expired. '
                          'Please delete refresh-tokens.json and setup again.')

@@ -18,7 +18,7 @@ git-annex-remote-globus adds to git-annex the ability to retrieve files which ar
 From now on we are going to work from the dataset repo location where you cd'ed
 3. Add the path of your git-annex-remote-globus location to your current PATH
 4. Initialize a virtual environment and install requirements.txt. You may need to add the git-globus-annex path manually
- here not to make the system confuse qith the filename of other repos: run ```pip install -r path/to/git-annex-remote-globus/requirements.txt```
+ here not to make the system confuse with the filename of other repos: run ```pip install -r path/to/git-annex-remote-globus/requirements.txt```
 5. In the repository, run `git-annex-remote-globus setup` and follow the instructions to authenticate. Gmail and ORCHID are supported
 6. Add a remote for globus. Consider the following:
 
