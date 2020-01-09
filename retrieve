@@ -1,28 +1,23 @@
 #!/usr/bin/env python
 import logging
 import sys
-from datalad.support.annexrepo import AnnexRepo
+import os
+import subprocess
 
 
 class Retrieve:
 
     def __init__(self):
-        self.annexrepo = AnnexRepo
+        self.dataset_path = '/home/giuly/test/FRDR-multimodal'
+        self.remote_prefix = '/5/published/publication_170/submitted_data'
+        self.dataset_name = 'frdr_prod_2'
+        self.url_prefix = 'globus://'
+        self.dictionary = {}
+        self.annex_uuid = 'f9d54ff2-867a-4de4-9cdb-3efa503c5469'
 
-    def _getuuid(self):
-        """retrieves remote uuid location that is calculated at the initremote"""
-        return self.uuid
-
-    def setpresentkey(self):
-        pass
-
-    def add_url(self, url):
-        self.annexrepo.add_urls(url)
-
-    def get_file(self, file_path):
-        self.annexremote._run_annex_command('get', annex_options=file_path,
-                                            backend=None, log_online=True,
-                                            log_stderr=False, cwd=None)
+    @property
+    def remote_path(self):
+        return self.url_prefix + self.dataset_name + self.remote_prefix
 
     def __call__(self, file_path):
         # setpresentkey
@@ -30,11 +25,40 @@ class Retrieve:
         # get file
         pass
 
+    def get_MD5_keys(self, path, remote_path):
+        # list content
+        for elem in os.listdir(path):
+            update_path = os.path.join(path, elem)
+            update_remote_path = os.path.join(remote_path, elem)
+            if os.path.isdir(update_path):
+                # recurse
+                self.get_MD5_keys(update_path, update_remote_path)
+            else:
+                if os.path.islink(update_path):
+                    key = str(os.readlink(update_path)).split('/')[-1]
+                    # print(key, update_remote_path)
+                    # add to dictionary
+                    self.dictionary[key] = update_remote_path
+                    self.process(key, update_remote_path)
+                else:
+                    pass
+
+    def process(self, key, path):
+        # setpresentkey
+        setpresentkey_command = ['git', 'annex', 'setpresentkey', key, self.annex_uuid, '1']
+        process = subprocess.Popen(setpresentkey_command, stdout=subprocess.PIPE)
+        output, error = process.communicate()
+        print(output, error)
+        # register url
+        registerurl_command = ['git', 'annex', 'registerurl', key, path]
+        process = subprocess.Popen(registerurl_command, stdout=subprocess.PIPE)
+        output, error = process.communicate()
+        print(output, error)
+
 
 def main():
-    output = sys.stdout
-    sys.stdout = sys.stderr
-    master = Retrieve(output)
+    master = Retrieve()
+    master.get_MD5_keys('/home/giuly/test/FRDR-multimodal', 'globus://frdr_prod_2/5/published/publication_170/submitted_data')
 
 
 if __name__ == "__main__":

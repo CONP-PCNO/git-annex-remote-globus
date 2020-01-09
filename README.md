@@ -2,7 +2,7 @@
 
 git-annex-remote-globus adds to git-annex the ability to retrieve files which are available through Globus.
 
-* Note! code is not yest distributed therefore Usage information are going to change soon
+* Note! code is not yet distributed therefore Usage information are going to change soon
 
 
 ## Requirements
@@ -14,15 +14,15 @@ git-annex-remote-globus adds to git-annex the ability to retrieve files which ar
 ## Setup
 
 1. git clone this repository: ``` git clone https://github.com/CONP-PCNO/git-annex-remote-globus.git```
-2. In a different folder, install the following dataset: ```datalad install https://github.com/conpdatasets/FRDR-multimodal.git```and ```cd FRDR-multimodal```
-    from now on we are going to work from the dataset repo location where you cd'ed
+2. In a different folder, install the following dataset: ```datalad install https://github.com/conpdatasets/FRDR-multimodal.git```and ```cd FRDR-multimodal```. 
+From now on we are going to work from the dataset repo location where you cd'ed
 3. Add the path of your git-annex-remote-globus location to your current PATH
 4. Initialize a virtual environment and install requirements.txt. You may need to add the git-globus-annex path manually
  here not to make the system confuse qith the filename of other repos: run ```pip install -r path/to/git-annex-remote-globus/requirements.txt```
 5. In the repository, run `git-annex-remote-globus setup` and follow the instructions to authenticate. Gmail and ORCHID are supported
-6. Add a remote for globus. This example:
+6. Add a remote for globus. Consider the following:
 
-   * Adds a git-annex remote called `globus`
+   * Add a git-annex remote called `globus`
    * Encrypts can be set to none for now
    * The option -d will enable a verbose output
    * The endpoint name corresponds to the name of the dataset in globus so globus can find it
