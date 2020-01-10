@@ -298,6 +298,7 @@ class GlobusRemote(SpecialRemote):
             self.annex.info("Downloading {0} into {1}".format(globus_url, filename))
             with urllib.request.urlopen(str(download_url).replace(" ", "%20")) \
                     as response, open(os.path.normpath(filename), 'wb') as out_file:
+                self.annex.info("Download in process...")
                 shutil.copyfileobj(response, out_file)
         except Exception as e:
             self.annex.error("problem occurred while downloading: {0}".format(e))
