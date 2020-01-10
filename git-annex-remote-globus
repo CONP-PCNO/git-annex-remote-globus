@@ -291,19 +291,17 @@ class GlobusRemote(SpecialRemote):
             if self._do_retrive(globus_urls[0], filename):
                 return key
 
-    # TODO: use ds_dir to build location
     def _do_retrive(self, globus_url, filename):
         """Data transfer at the given url into a temporary location, filename"""
         download_url = self.server + str(globus_url).split(str(self.endpoint).lower())[1]
         try:
             self.annex.info("Downloading {0} into {1}".format(globus_url, filename))
-            with urllib.request.urlopen(download_url) as response, open(os.path.normpath(filename), 'wb') as out_file:
+            with urllib.request.urlopen(str(download_url).replace(" ", "%20")) \
+                    as response, open(os.path.normpath(filename), 'wb') as out_file:
                 shutil.copyfileobj(response, out_file)
         except Exception as e:
             self.annex.error("problem occurred while downloading: {0}".format(e))
             return False
-        # os.path.getsize(fpath)
-        # self.annex.progress(1)
         self.annex.info("Successfully downloaded {0} into {1}".format(globus_url, filename))
         return True
 

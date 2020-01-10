@@ -4,8 +4,8 @@ import sys
 import argparse
 import os
 import subprocess
-from pathlib import Path
 import configparser
+
 
 class Retrieve:
 
@@ -35,7 +35,6 @@ class Retrieve:
         print(output)
         for remote in output:
             if remote == 'globus':
-                print(remote)
                 return True
         return False
 
@@ -167,9 +166,6 @@ def main():
     print("Files successfully retrieved")
 
 
-
 if __name__ == "__main__":
     main()
 
-# run:
-# retrieve --path /home/giuly/test/FRDR-multimodal --endpoint frdr_prod_2 --fileprefix /5/published/publication_170/submitted_data --encryption none
