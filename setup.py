@@ -11,7 +11,7 @@ setup(
     description='git annex special remote for Globus',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    install_requires=['annexremote==1.3.1'],
+    install_requires=['annexremote==1.3.1', 'globus_sdk', 'pathlib'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
 
