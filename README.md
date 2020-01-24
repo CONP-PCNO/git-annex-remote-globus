@@ -152,3 +152,4 @@ Please submit a pull request or create a new issue for problems or potential imp
 
 ## License
 
+MIT
