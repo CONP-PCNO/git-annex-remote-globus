@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!python
 # git-annex external special remote program for Globus data repository
 # 
 # This is an addition to git-annex's built-in directory special remotes.
@@ -18,14 +18,10 @@ import sys
 import webbrowser
 import urllib.request
 import shutil
-import logging
 from globus_sdk import (NativeAppAuthClient, TransferClient,
                         RefreshTokenAuthorizer)
 from globus_sdk.exc import GlobusAPIError
 versions = None
-
-logger = logging.getLogger('globus-remote')
-logger.setLevel(level=logging.ERROR)
 
 
 class GlobusRemote(SpecialRemote):
@@ -110,7 +106,7 @@ class GlobusRemote(SpecialRemote):
             # if we already have tokens, load and use them
             tokens = self.load_tokens_from_file(self.token_path)
         except Exception as e:
-            logger.error('Exception while loading file: ', e)
+            self.annex.error('Exception while loading file: ', e)
 
         if not tokens:
             # if we need to get tokens, start the Native App authentication process
@@ -121,7 +117,7 @@ class GlobusRemote(SpecialRemote):
             try:
                 self.save_tokens_to_file(self.token_path, tokens)
             except Exception as e:
-                logger.error('Exception while saving tokens to file: ', e)
+                self.annex.error('Exception while saving tokens to file: ', e)
                 sys.exit()
         self.authenticate(tokens)
 
@@ -161,11 +157,11 @@ class GlobusRemote(SpecialRemote):
             # there is a unique id associated with the endpoint name
             return endpoints_list[0]
         elif count > 1:
-            logger.error('The endpoint {0} is not unique: {1} were found'.format(dir_name, count))
+            self.annex.error('The endpoint {0} is not unique: {1} were found'.format(dir_name, count))
             # crash
             sys.exit()
         else:
-            logger.error('The endpoint {0} does not exist'.format(dir_name))
+            self.annex.error('The endpoint {0} does not exist'.format(dir_name))
             # crash
             sys.exit()
 
@@ -178,7 +174,7 @@ class GlobusRemote(SpecialRemote):
             obj = self.transfer_client.get_endpoint(endpoint_id)
             self.server = obj['https_server']
         except GlobusAPIError as ex:
-            logger.error(ex)
+            self.annex.error(ex)
             if ex.http_status == 401:
                 sys.exit('Refresh token has expired. '
                          'Please delete refresh-tokens.json and setup again.')
@@ -259,6 +255,7 @@ class GlobusRemote(SpecialRemote):
         path = self._get_remote_location(url)
         # construct a remote directory path
         globus_size = self._get_size(path)
+        self.annex.info(globus_size)
         key_size = GlobusRemote.key_size(key)
         return int(globus_size) == int(key_size)
 
@@ -268,7 +265,7 @@ class GlobusRemote(SpecialRemote):
         globus_urls = self.annex.geturls(key, prefix='globus://')
         # there is multiple or missing url
         if len(globus_urls) != 1:
-            self.annex.error("Could not find the globus url for the specified key"
+            self.annex.info("Could not find the globus url for the specified key"
                              "number of urls found: {0}".format(len(globus_urls)))
             return False
         else:
@@ -298,16 +295,15 @@ class GlobusRemote(SpecialRemote):
         """Data transfer at the given url into a temporary location, filename"""
         download_url = self.server + str(globus_url).split(str(self.endpoint).lower())[1]
         try:
-            logger.info("Downloading {0} into {1}".format(globus_url, filename))
-            # TODO: add progress bar
+            self.annex.info("Downloading {0} into {1}".format(globus_url, filename))
             with urllib.request.urlopen(str(download_url).replace(" ", "%20")) \
                     as response, open(os.path.normpath(filename), 'wb') as out_file:
-                logger.info("Download in process...")
+                self.annex.info("Download in process...")
                 shutil.copyfileobj(response, out_file)
         except Exception as e:
             self.annex.error("problem occurred while downloading: {0}".format(e))
             return False
-        logger.info("Successfully downloaded {0} into {1}".format(globus_url, filename))
+        self.annex.info("Successfully downloaded {0} into {1}".format(globus_url, filename))
         return True
 
     def _is_valid(self, url):

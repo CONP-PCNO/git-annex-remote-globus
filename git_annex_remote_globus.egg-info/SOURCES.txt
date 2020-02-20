@@ -1,0 +1,10 @@
+LICENSE
+MANIFEST.in
+README.md
+git-annex-remote-globus
+setup.py
+git_annex_remote_globus.egg-info/PKG-INFO
+git_annex_remote_globus.egg-info/SOURCES.txt
+git_annex_remote_globus.egg-info/dependency_links.txt
+git_annex_remote_globus.egg-info/requires.txt
+git_annex_remote_globus.egg-info/top_level.txt
