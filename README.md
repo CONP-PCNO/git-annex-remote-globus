@@ -10,6 +10,18 @@ git-annex-remote-globus adds to git-annex the ability to retrieve files which ar
 * Datalad
 * Git annex
 
+## Test
+
+1. git clone this repository: ``` git clone https://github.com/CONP-PCNO/git-annex-remote-globus.git``` and checkout the branch you want to test
+    with `git checkout -a <branch>`. Using a virtual environment is suggested
+2. In a different folder, install the following dataset: ```datalad install https://github.com/conpdatasets/FRDR-multimodal.git```and ```cd FRDR-multimodal```. 
+From now on we are going to work from the dataset repo location where you cd'ed
+3. Add the path of your git-annex-remote-globus location to your current dataset PATH
+4. In the repository, run `git-annex-remote-globus setup` and follow the instructions to authenticate. Gmail and ORCHID are supported
+    If may you need in a fresh virtual env, install dependencies specified. It will work after that
+5. Run `git annex enableremote globus`. This command should initialize the remote successfully if everything went all right
+6 Try to download any file with `git annex get path/to/file`
+
 
 ## Setup
 
