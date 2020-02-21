@@ -8,17 +8,16 @@
 # TODO: Add Copyright
 
 import os
-from pathlib import Path
 import globus_sdk
 from annexremote import Master
 from annexremote import SpecialRemote
 from annexremote import RemoteError
-import json
 import sys
 import webbrowser
 import urllib.request
 import shutil
 import logging
+import keyring
 from globus_sdk import (NativeAppAuthClient, TransferClient,
                         RefreshTokenAuthorizer)
 from globus_sdk.exc import GlobusAPIError
@@ -32,7 +31,6 @@ class GlobusRemote(SpecialRemote):
 
     """This is the class of Globus remotes."""
 
-    _home_path = os.environ["HOME"]
     get_input = getattr(__builtins__, 'raw_input', input)
 
     def __init__(self, annex):
@@ -42,40 +40,32 @@ class GlobusRemote(SpecialRemote):
         self.fileprefix = None
         self.endpoint = None
         self.transfer_client = None
-        self._token_path = None
         self.settings = {
             'client_id': '01589ab6-70d1-4e1c-b33d-14b6af4a16be',
-            'token_file': '.refresh-tokens.json',
             'redirect_uri': 'https://auth.globus.org/v2/web/auth-code',
             'scopes': ('openid email profile '
                        'urn:globus:auth:scope:transfer.api.globus.org:all')
 
         }
 
-    @property
-    def token_path(self):
-        return Path(self._home_path) / self.settings['token_file']
+    @staticmethod
+    def load_tokens():
+        """Load a set of saved tokens from keyring"""
+        tokens = keyring.get_password("globus-remote", "auth-tokens")
+        return eval(tokens)
 
     @staticmethod
-    def load_tokens_from_file(filepath):
-        """Load a set of saved tokens."""
-        with open(filepath, 'r') as f:
-            tokens = json.load(f)
+    def save_tokens(tokens):
+        """Save a set of tokens in keyring for later use."""
+        keyring.set_password("globus-remote", "auth-tokens", str(tokens))
 
-        return tokens
-
-    @staticmethod
-    def save_tokens_to_file(filepath, tokens):
-        """Save a set of tokens for later use."""
-        with open(filepath, 'w') as f:
-            json.dump(tokens, f)
-
-    def update_tokens_file_on_refresh(self, token_response):
+    def update_tokens_on_refresh(self, token_response):
         """
         Callback function passed into the RefreshTokenAuthorizer
         Will be invoked any time a new access token is fetched.
         """
-        self.save_tokens_to_file(self.token_path, token_response.by_resource_server)
+        keyring.delete_password("globus-remote", "auth-tokens")
+        self.save_tokens(token_response.by_resource_server)
 
     @staticmethod
     def do_native_app_authentication(client_id, redirect_uri, requested_scopes=None):
@@ -103,25 +93,24 @@ class GlobusRemote(SpecialRemote):
     def setup(self):
         """
         Setup function to be run before initremote to handle things like authentication interactively
-        Load credentials, obtain or refresh tokens if they are not in token files
+        Load credentials, obtain or refresh tokens if they are not in token files, tokens saved in keyring for privacy
         """
         tokens = None
         try:
             # if we already have tokens, load and use them
-            tokens = self.load_tokens_from_file(self.token_path)
+            tokens = self.load_tokens()
         except Exception as e:
-            logger.error('Exception while loading file: ', e)
+            logger.info('Tokens not available, try to authenticate: ', e)
 
         if not tokens:
             # if we need to get tokens, start the Native App authentication process
             tokens = self.do_native_app_authentication(self.settings['client_id'],
                                                        self.settings['redirect_uri'],
                                                        self.settings['scopes'])
-
             try:
-                self.save_tokens_to_file(self.token_path, tokens)
+                self.save_tokens(tokens)
             except Exception as e:
-                logger.error('Exception while saving tokens to file: ', e)
+                logger.error('Exception while saving tokens with keyring: ', e)
                 sys.exit()
         self.authenticate(tokens)
 
@@ -129,9 +118,9 @@ class GlobusRemote(SpecialRemote):
         """
         Manages authentication to Globus and returns transfer client to enable operations on dataset
         """
-        # get tokens from tokens files
+        # get tokens from keyring
         if not tokens:
-            tokens = self.load_tokens_from_file(self.token_path)
+            tokens = self.load_tokens()
 
         transfer_tokens = tokens['transfer.api.globus.org']
 
@@ -142,9 +131,8 @@ class GlobusRemote(SpecialRemote):
             auth_client,
             access_token=transfer_tokens['access_token'],
             expires_at=transfer_tokens['expires_at_seconds'],
-            on_refresh=self.update_tokens_file_on_refresh)
+            on_refresh=self.update_tokens_on_refresh)
 
-        # TODO: maybe make it a PROPERTY
         self.transfer_client = TransferClient(authorizer=authorizer)
 
     def get_endpoint_id(self, dir_name):
