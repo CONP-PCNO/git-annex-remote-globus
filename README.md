@@ -13,15 +13,20 @@ git-annex-remote-globus adds to git-annex the ability to retrieve files present 
 
 1. Initialize a virtual environment
 2. Install the repository with ``` pip install git-annex-remote-globus```
-3. Install the dataset to be retrieved via the remote ```datalad install <dataset>```and ```cd <dataset>```. 
+3. Install the dataset to be retrieved via the remote ```datalad install -r <dataset>```and ```cd <dataset>```. 
 4. If it is the first time a user uses globus remote, authentication to Globus.ors must take place to continue
     Thus run ```git-annex-remote-globus setup``` anf follow the steps. Gmail and ORCHID are supported
 5. If the dataset was previously registered which is expected, it enough to enable the globus remote by running:
+    
     ```git annex enableremote globus```
+    
     else, full initialization must be run:
+    
     ```git annex initremote globus type=external externaltype=globus encryption=none endpoint=<dataset_name> fileprefix=<prefix_path>```
+    
     where <datset_name> is the name of the dataset in Globus.org and <prefix_file> is the prefix path before the dataset files in Globus.org
 6. Try to download the desired file with
+    
     ```datalad get path/to/file```
     
 If every step was followed correctly, it will ger successfully downloaded !
@@ -33,7 +38,7 @@ This procedure is only for testing purposes:
 
 1. git clone this repository: ``` git clone https://github.com/CONP-PCNO/git-annex-remote-globus.git``` and checkout the branch you want to test
     with `git checkout -a <branch>`. Using a virtual environment is suggested
-2. In a different folder, install the following dataset: ```datalad install https://github.com/conpdatasets/FRDR-multimodal.git```and ```cd FRDR-multimodal```. 
+2. In a different folder, install the following dataset: ```datalad install -r <dataset>```and ```cd <dataset>```. 
 From now on we are going to work from the dataset repo location where you cd'ed
 3. Add the path of your git-annex-remote-globus location to your current dataset PATH
 4. In the repository, run `git-annex-remote-globus setup` and follow the instructions to authenticate. Gmail and ORCHID are supported
