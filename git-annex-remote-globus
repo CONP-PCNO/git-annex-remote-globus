@@ -309,7 +309,7 @@ class GlobusRemote(SpecialRemote):
         try:
             download_url = self.server + str(globus_url).split(str(self.endpoint).lower())[1]
         except ValueError as e:
-            logger.error('Cannot retrieve file from server:', e, download_url)
+            logger.error('Download URL error. Cannot retrieve file from server:', e, download_url)
 
         try:
             logger.info("Downloading {0} into {1}".format(globus_url, filename))
