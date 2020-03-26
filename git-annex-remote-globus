@@ -74,22 +74,6 @@ class GlobusRemote(SpecialRemote):
         """
         Does a Native App authentication flow and returns a dict of tokens keyed by service name.
         """
-        # native_client = NativeClient(client_id=client_id, app_name=APP_NAME)
-        # try:
-        #     # if we already have tokens, load and use them
-        #     tokens = native_client.load_tokens(requested_scopes=self.settings['scopes'])
-        # except:
-        #     pass
-        #
-        # if not tokens:
-        #     tokens = native_client.login(requested_scopes=self.settings['scopes'], refresh_tokens=True)
-        #
-        #     try:
-        #         native_client.save_tokens(tokens)
-        #     except:
-        #         pass
-        #
-        # transfer_tokens = tokens['transfer.api.globus.org']
 
         client = globus_sdk.NativeAppAuthClient(client_id=client_id)
         # pass refresh_tokens=True to request refresh tokens
