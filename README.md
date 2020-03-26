@@ -22,7 +22,7 @@ git-annex-remote-globus adds to git-annex the ability to retrieve files present 
     
     else, full initialization must be run:
     
-    ```git annex initremote globus type=external externaltype=globus encryption=none endpoint=<dataset_name> fileprefix=<prefix_path>```
+    ```git annex enableremote globus type=external externaltype=globus encryption=none endpoint=<dataset_name> fileprefix=<prefix_path>```
     
     where <datset_name> is the name of the dataset in Globus.org and <prefix_file> is the prefix path before the dataset files in Globus.org
 6. Try to download the desired file with

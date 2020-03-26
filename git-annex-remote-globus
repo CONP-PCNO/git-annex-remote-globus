@@ -21,11 +21,13 @@ import keyring
 from globus_sdk import (NativeAppAuthClient, TransferClient,
                         RefreshTokenAuthorizer)
 from globus_sdk.exc import GlobusAPIError
+# from fair_research_login import NativeClient
 versions = None
 
 logger = logging.getLogger('globus-remote')
 logger.setLevel(level=logging.ERROR)
 
+APP_NAME = 'git-annex-globus-remote'
 
 class GlobusRemote(SpecialRemote):
 
@@ -42,6 +44,7 @@ class GlobusRemote(SpecialRemote):
         self.transfer_client = None
         self.settings = {
             'client_id': '01589ab6-70d1-4e1c-b33d-14b6af4a16be',
+            'server': 'https://2a9f4.8443.dn.glob.us/',
             'redirect_uri': 'https://auth.globus.org/v2/web/auth-code',
             'scopes': ('openid email profile '
                        'urn:globus:auth:scope:transfer.api.globus.org:all')
@@ -67,11 +70,27 @@ class GlobusRemote(SpecialRemote):
         keyring.delete_password("globus-remote", "auth-tokens")
         self.save_tokens(token_response.by_resource_server)
 
-    @staticmethod
-    def do_native_app_authentication(client_id, redirect_uri, requested_scopes=None):
+    def do_native_app_authentication(self, client_id, redirect_uri, requested_scopes=None):
         """
         Does a Native App authentication flow and returns a dict of tokens keyed by service name.
         """
+        # native_client = NativeClient(client_id=client_id, app_name=APP_NAME)
+        # try:
+        #     # if we already have tokens, load and use them
+        #     tokens = native_client.load_tokens(requested_scopes=self.settings['scopes'])
+        # except:
+        #     pass
+        #
+        # if not tokens:
+        #     tokens = native_client.login(requested_scopes=self.settings['scopes'], refresh_tokens=True)
+        #
+        #     try:
+        #         native_client.save_tokens(tokens)
+        #     except:
+        #         pass
+        #
+        # transfer_tokens = tokens['transfer.api.globus.org']
+
         client = globus_sdk.NativeAppAuthClient(client_id=client_id)
         # pass refresh_tokens=True to request refresh tokens
         client.oauth2_start_flow(requested_scopes=requested_scopes,
@@ -284,7 +303,14 @@ class GlobusRemote(SpecialRemote):
 
     def _do_retrive(self, globus_url, filename):
         """Data transfer at the given url into a temporary location, filename"""
-        download_url = self.server + str(globus_url).split(str(self.endpoint).lower())[1]
+        download_url = None
+        if not self.server:
+            self.server = self.settings['server']
+        try:
+            download_url = self.server + str(globus_url).split(str(self.endpoint).lower())[1]
+        except ValueError as e:
+            logger.error('Cannot retrieve file from server:', e, download_url)
+
         try:
             logger.info("Downloading {0} into {1}".format(globus_url, filename))
             # TODO: add progress bar
