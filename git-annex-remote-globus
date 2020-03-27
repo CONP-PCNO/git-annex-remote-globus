@@ -18,10 +18,12 @@ import urllib.request
 import shutil
 import logging
 import keyring
+from fair_research_login.code_handler import InputCodeHandler
+from fair_research_login.local_server import LocalServerCodeHandler
 from globus_sdk import (NativeAppAuthClient, TransferClient,
                         RefreshTokenAuthorizer)
 from globus_sdk.exc import GlobusAPIError
-# from fair_research_login import NativeClient
+from fair_research_login import NativeClient
 versions = None
 
 logger = logging.getLogger('globus-remote')
@@ -70,27 +72,32 @@ class GlobusRemote(SpecialRemote):
         keyring.delete_password("globus-remote", "auth-tokens")
         self.save_tokens(token_response.by_resource_server)
 
-    def do_native_app_authentication(self, client_id, redirect_uri, requested_scopes=None):
+    @staticmethod
+    def do_native_app_authentication(client_id, redirect_uri, requested_scopes=None,
+                                     local_server_code_handler=LocalServerCodeHandler(),
+                                     secondary_code_handler=InputCodeHandler()):
         """
         Does a Native App authentication flow and returns a dict of tokens keyed by service name.
         """
-
         client = globus_sdk.NativeAppAuthClient(client_id=client_id)
-        # pass refresh_tokens=True to request refresh tokens
-        client.oauth2_start_flow(requested_scopes=requested_scopes,
-                                 redirect_uri=redirect_uri,
-                                 refresh_tokens=True)
+        code_handler = local_server_code_handler  # or secondary_code_handler
 
-        url = client.oauth2_get_authorize_url()
+        # if not os.environ.get('SSH_TTY', os.environ.get('SSH_CONNECTION')):
+        #     no_browser = False
+        # else:
+        #     no_browser = True
 
-        if not os.environ.get('SSH_TTY', os.environ.get('SSH_CONNECTION')):
-            webbrowser.open(url, new=1)
-
-        auth_code = input().strip()
+        with code_handler.start():
+            client.oauth2_start_flow(
+                requested_scopes=requested_scopes,
+                refresh_tokens=True,
+                redirect_uri=code_handler.get_redirect_uri()
+            )
+            auth_url = client.oauth2_get_authorize_url()
+            auth_code = code_handler.authenticate(url=auth_url, no_browser=False)
 
         token_response = client.oauth2_exchange_code_for_tokens(auth_code)
 
-        # return a set of tokens, organized by resource server name
         return token_response.by_resource_server
 
     def setup(self):
