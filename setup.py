@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='git-annex-remote-globus',
-    version='1.2',
+    version='1.2.2',
     author='Giulia Ippoliti',
     author_email='giuly.ippoliti@gmail.com',
     scripts=['git-annex-remote-globus'],
@@ -11,7 +11,7 @@ setuptools.setup(
     description='git annex special remote for Globus',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    install_requires=['annexremote==1.3.1', 'globus_sdk', 'pathlib'],
+    install_requires=['annexremote==1.3.1', 'globus_sdk', 'fair-research-login'],
     packages=setuptools.find_packages(),
     license='MIT',
     classifiers=[
